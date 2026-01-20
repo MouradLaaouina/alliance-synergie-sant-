@@ -29,7 +29,7 @@ const Expertise = () => {
         description="Ingénierie stratégique pour le marché dermo-cosmétique marocain : réglementaire, logistique, marketing et force de vente."
       />
       {/* Compact Prestige Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
         {/* Mesh Gradient VFX */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 right-[-10%] w-[65%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(5,150,105,0.08)_0%,transparent_70%)] blur-[110px]"></div>
@@ -44,11 +44,11 @@ const Expertise = () => {
             <span>Excellence Stratégique</span>
           </div>
 
-          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
+          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
             Notre <span className="text-emerald-500 italic">Ingénierie Stratégique</span>
           </h1>
 
-          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             Une approche à 360° pour transformer chaque défi du marché marocain en <span className="text-white font-medium">opportunité de croissance</span>.
           </p>
         </div>
@@ -99,11 +99,11 @@ const Expertise = () => {
           <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-600/5 skew-x-12 transform translate-x-1/2"></div>
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-12 rounded-3xl">
-              <div className="flex items-center space-x-3 mb-4 md:mb-6">
+              <div className="flex items-center space-x-3 mb-6">
                 <TrendingUp className="text-emerald-400 w-6 h-6 md:w-8 md:h-8" />
-                <h2 className="text-xl md:text-4xl font-bold text-white font-serif">Calculateur de Synergie Stratégique</h2>
+                <h2 className="text-2xl md:text-4xl font-bold text-white font-serif">Calculateur de Synergie Stratégique</h2>
               </div>
-              <p className="text-sm md:text-lg text-slate-300 mb-6 md:mb-10 leading-relaxed">
+              <p className="text-base md:text-lg text-slate-300 mb-8 md:mb-10 leading-relaxed">
                 Découvrez comment notre modèle unique s'applique à votre laboratoire. Décrivez votre projet, et notre algorithme analysera les synergies possibles avec les 10 piliers d'A2S.
               </p>
 
@@ -159,8 +159,8 @@ const Expertise = () => {
         <section className="container mx-auto px-4 md:px-6 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="order-2 lg:order-1">
-              <span className="text-emerald-600 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-3 md:mb-4 block">Force de frappe terrain</span>
-              <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-6 md:mb-8 font-serif leading-tight">Une présence physique inégalée au Maroc</h2>
+              <span className="text-emerald-600 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-4 block">Force de frappe terrain</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 font-serif leading-tight">Une présence physique inégalée au Maroc</h2>
               <ul className="space-y-6">
                 <li className="flex items-start space-x-4">
                   <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0 text-sm">1</div>

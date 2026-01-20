@@ -75,7 +75,7 @@ const Contact = () => {
                 description="Prêt à accélérer votre croissance au Maroc ? Contactez les experts A2S pour un accompagnement sur mesure."
             />
             {/* Compact Prestige Hero Section */}
-            <section className="relative pt-24 pb-16 md:pt-40 md:pb-20 bg-slate-950 overflow-hidden text-center border-b border-white/5">
+            <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-slate-950 overflow-hidden text-center border-b border-white/5">
                 {/* Mesh Gradient VFX with Contact Theme */}
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                     <div className="absolute -inset-[10px] opacity-[0.05] bg-[url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center grayscale blur-[2px]"></div>
@@ -90,11 +90,11 @@ const Contact = () => {
                         <span>Direct Connection</span>
                     </div>
 
-                    <h1 className="text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight animate-in fade-in slide-in-from-bottom-6 duration-700">
+                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight animate-in fade-in slide-in-from-bottom-6 duration-700">
                         Ouvrons le <span className="text-emerald-500 italic">dialogue.</span>
                     </h1>
 
-                    <p className="text-sm md:text-xl text-slate-300/90 font-light max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                    <p className="text-base md:text-xl text-slate-300/90 font-light max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
                         Prêt à accélérer votre croissance au Maroc ? Nos experts vous répondent sous <span className="text-white font-medium">24h - 48h</span>.
                     </p>
                 </div>
@@ -113,8 +113,8 @@ const Contact = () => {
                         {/* Left: Contact Info */}
                         <div className="lg:w-1/3 space-y-12">
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 font-serif leading-tight">Parlons de votre prochain <span className="text-emerald-600">succès au Maroc</span></h2>
-                                <p className="text-slate-600 text-sm md:text-lg leading-relaxed mb-8">
+                                <h2 className="text-3xl font-bold text-slate-900 mb-8 font-serif leading-tight">Parlons de votre prochain <span className="text-emerald-600">succès au Maroc</span></h2>
+                                <p className="text-slate-600 text-lg leading-relaxed mb-8">
                                     Besoin d'un accompagnement stratégique pour votre laboratoire ? Notre équipe d'experts est à votre écoute pour définir votre stratégie de croissance.
                                 </p>
                             </div>
@@ -145,7 +145,7 @@ const Contact = () => {
                                         <Mail size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-slate-900 uppercase tracking-wider text-xs mb-1">Email</h4>
+                                        <h4 className="font-bold text-slate-900 uppercase tracking-wider text-sm mb-1">Email E-mail</h4>
                                         <p className="text-slate-500 leading-relaxed">contact@a2s.ma</p>
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@ const Contact = () => {
 
                         {/* Right: Contact Form */}
                         <div className="lg:w-2/3">
-                            <div className="bg-white p-6 md:p-16 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl shadow-slate-200/60 border border-slate-100 relative overflow-hidden">
+                            <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-2xl shadow-slate-200/60 border border-slate-100 relative overflow-hidden">
                                 {submitted ? (
                                     <div className="py-20 text-center animate-in fade-in zoom-in duration-500">
                                         <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto mb-8">

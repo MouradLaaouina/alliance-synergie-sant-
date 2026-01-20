@@ -11,7 +11,7 @@ const About = () => {
         description="Découvrez A2S, leader de la dermo-cosmétique au Maroc depuis 16 ans. Notre mission : l'excellence au service de la santé."
       />
       {/* Compact Prestige Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-emerald-500/10">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-emerald-500/10">
         {/* Mesh Gradient VFX */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0%,transparent_70%)] blur-[100px] animate-pulse"></div>
@@ -26,11 +26,11 @@ const About = () => {
             <span>Héritage & Vision</span>
           </div>
 
-          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700">
             L'excellence au service de la <span className="text-emerald-500 italic">santé au Maroc</span>.
           </h1>
 
-          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             A2S crée un pont stratégique entre l'innovation mondiale et les besoins locaux, avec une rigueur opérationnelle absolue.
           </p>
         </div>
@@ -43,7 +43,7 @@ const About = () => {
 
 
         {/* Content & Stats */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-16 md:mb-32">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24 md:mb-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="space-y-6 text-base md:text-lg text-slate-600 leading-relaxed order-2 lg:order-1">
               <p className="font-bold text-slate-900 text-xl md:text-2xl leading-tight">
@@ -104,7 +104,7 @@ const About = () => {
         </section>
 
         {/* Vision & Mission Cards */}
-        <section className="bg-slate-50 py-16 md:py-32 border-y border-slate-100">
+        <section className="bg-slate-50 py-20 md:py-32 border-y border-slate-100">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
               <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 group hover:-translate-y-2">

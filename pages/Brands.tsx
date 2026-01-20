@@ -12,7 +12,7 @@ const Brands = () => {
         description="Découvrez notre portfolio de marques prestigieuses : Égérie, Sensilis, BABÉ, D-Cap, D-White et plus."
       />
       {/* Compact Prestige Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
         {/* Mesh Gradient VFX */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.06)_0%,transparent_70%)]"></div>
@@ -26,11 +26,11 @@ const Brands = () => {
             <span>Iconic Portfolio</span>
           </div>
 
-          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
+          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
             Nos fleurons d' <span className="text-emerald-500 italic">excellence.</span>
           </h1>
 
-          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             Une sélection rigoureuse des marques les plus prestigieuses, alliant science et résultats.
           </p>
         </div>
@@ -61,8 +61,8 @@ const Brands = () => {
                 <Star className="text-yellow-400 fill-yellow-400" size={24} />
                 <span className="font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs">Égérie Nationale & Prestige</span>
               </div>
-              <h2 className="text-3xl md:text-6xl font-bold mb-6 md:mb-8 font-serif leading-tight">Mouna Fettou : <br className="hidden md:block" /> L'élégance de la confiance.</h2>
-              <p className="text-base md:text-xl text-emerald-100 mb-8 md:mb-10 leading-relaxed max-w-lg">
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 font-serif leading-tight">Mouna Fettou : <br className="hidden md:block" /> L'élégance de la confiance.</h2>
+              <p className="text-lg md:text-xl text-emerald-100 mb-10 leading-relaxed max-w-lg">
                 Ambassadrice emblématique, élégante et intergénérationnelle, Mouna Fettou incarne parfaitement les valeurs d'excellence et de proximité de nos marques au Maroc.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 text-sm md:text-base">
