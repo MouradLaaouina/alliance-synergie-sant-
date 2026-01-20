@@ -135,7 +135,7 @@ const Home = () => {
                 />
               </div>
 
-              <h1 className="text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] font-serif mb-8 tracking-tight">
+              <h1 className="text-balance text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] font-serif mb-8 tracking-tight px-2">
                 Le Leader de la distribution <br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-200 to-emerald-400 italic bg-[length:200%_auto] animate-text-shine">
                   dermo-cosmétique au Maroc
@@ -152,58 +152,68 @@ const Home = () => {
             <div className={`flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-10 transition-all duration-1000 delay-600 transform ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <Link
                 to="/a-propos"
-                className="w-full sm:w-auto bg-emerald-600 text-white px-10 py-4 rounded-full font-bold text-base flex items-center justify-center transition-all shadow-[0_20px_50px_rgba(16,185,129,0.3)] hover:shadow-[0_25px_60px_rgba(16,185,129,0.5)] hover:-translate-y-1 active:scale-95 group relative overflow-hidden"
+                className="w-full sm:w-auto bg-emerald-600 text-white px-8 md:px-10 py-4 rounded-full font-bold text-sm md:text-base flex items-center justify-center transition-all shadow-[0_20px_50px_rgba(16,185,129,0.3)] hover:shadow-[0_25px_60px_rgba(16,185,129,0.5)] hover:-translate-y-1 active:scale-95 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:animate-shine-fast"></div>
                 <span className="relative z-10">Découvrir l'univers A2S</span>
-                <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform relative z-10" size={22} />
+                <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform relative z-10" size={20} />
               </Link>
 
               <Link
                 to="/expertise"
-                className="w-full sm:w-auto bg-white/5 hover:bg-white/10 backdrop-blur-md text-white border border-white/10 px-10 py-4 rounded-full font-bold text-base flex items-center justify-center transition-all group hover:border-emerald-500/30"
+                className="w-full sm:w-auto bg-white/5 hover:bg-white/10 backdrop-blur-md text-white border border-white/10 px-8 md:px-10 py-4 rounded-full font-bold text-sm md:text-base flex items-center justify-center transition-all group hover:border-emerald-500/30"
               >
                 Notre Expertise Unique
-                <ArrowRight className="ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-1 transition-all" size={20} />
+                <ArrowRight className="ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-1 transition-all" size={18} />
               </Link>
             </div>
           </div>
         </div>
+
+        {/* Immersive Scroll Transition Overlay */}
+        <div className="absolute bottom-0 left-0 w-full h-32 md:h-64 bg-gradient-to-t from-white via-transparent to-transparent z-40"></div>
+
+        {/* Sophisticated Curved Divider */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-50">
+          <svg className="relative block w-[calc(100%+1.3px)] h-[80px] md:h-[150px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113,2,1200,82.47V0Z" className="fill-slate-950"></path>
+          </svg>
+        </div>
       </section>
 
       {/* --- STRATEGIC VISION --- */}
-      <section className="py-24 md:py-40 bg-white relative">
+      <section className="py-24 md:py-48 bg-white relative">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
             <div className="lg:w-1/2">
-              <span className="text-emerald-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-6 block border-l-2 border-emerald-600 pl-4">Positionnement Unique</span>
-              <h2 className="text-balance text-4xl md:text-6xl font-bold text-slate-900 mb-8 font-serif leading-tight">
+              <span className="text-emerald-600 font-bold uppercase tracking-widest text-[10px] md:text-sm mb-4 md:mb-6 block border-l-2 border-emerald-600 pl-4">Positionnement Unique</span>
+              <h2 className="text-balance text-3xl md:text-6xl font-bold text-slate-900 mb-6 md:mb-8 font-serif leading-tight">
                 Le pont stratégique entre la <span className="text-emerald-600">science</span> et le <span className="text-emerald-600">terrain</span>.
               </h2>
               <p className="text-lg md:text-xl text-slate-600 leading-relaxed mb-10">
                 Nous ne sommes pas de simples logisticiens. A2S déploie une ingénierie marketing et commerciale à 360°, garantissant une visibilité maximale et un sell-out performant dans plus de 3000 officines au Maroc.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10 mb-12">
-                <div className="p-10 bg-slate-50 rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-emerald-200 transition-all group overflow-hidden relative">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-10 mb-8 md:mb-12">
+                <div className="p-6 md:p-10 bg-slate-50 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-emerald-200 transition-all group overflow-hidden relative">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20 group-hover:scale-150 transition-transform duration-700"></div>
-                  <div className="text-5xl md:text-7xl font-bold text-emerald-600 mb-3 group-hover:scale-105 transition-transform origin-left relative z-10">
+                  <div className="text-5xl md:text-7xl font-bold text-emerald-600 mb-2 md:mb-3 group-hover:scale-105 transition-transform origin-left relative z-10">
                     <AnimatedCounter end={16} suffix="+" />
                   </div>
-                  <div className="text-xs md:text-sm text-slate-900 font-bold uppercase tracking-widest mb-1 relative z-10">Années de Succès</div>
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wide italic relative z-10">Expertise Marché Local</div>
+                  <div className="text-[10px] md:text-sm text-slate-900 font-bold uppercase tracking-widest mb-1 relative z-10">Années de Succès</div>
+                  <div className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-wide italic relative z-10">Expertise Marché Local</div>
                 </div>
-                <div className="p-10 bg-slate-50 rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-emerald-200 transition-all group overflow-hidden relative">
+                <div className="p-6 md:p-10 bg-slate-50 rounded-[2rem] md:rounded-[2.5rem] border border-slate-100 hover:bg-white hover:shadow-2xl hover:border-emerald-200 transition-all group overflow-hidden relative">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-20 group-hover:scale-150 transition-transform duration-700"></div>
-                  <div className="text-5xl md:text-7xl font-bold text-emerald-600 mb-3 group-hover:scale-105 transition-transform origin-left relative z-10">
+                  <div className="text-5xl md:text-7xl font-bold text-emerald-600 mb-2 md:mb-3 group-hover:scale-105 transition-transform origin-left relative z-10">
                     <AnimatedCounter end={60} suffix="+" />
                   </div>
-                  <div className="text-xs md:text-sm text-slate-900 font-bold uppercase tracking-widest mb-1 relative z-10">Force Terrain</div>
-                  <div className="text-[10px] text-slate-400 uppercase tracking-wide italic relative z-10">Conseillères Dédiées</div>
+                  <div className="text-[10px] md:text-sm text-slate-900 font-bold uppercase tracking-widest mb-1 relative z-10">Force Terrain</div>
+                  <div className="text-[9px] md:text-[10px] text-slate-400 uppercase tracking-wide italic relative z-10">Conseillères Dédiées</div>
                 </div>
               </div>
 
-              <Link to="/a-propos" className="inline-flex items-center text-emerald-600 font-bold hover:text-emerald-700 transition-all group text-xl border-b-2 border-emerald-100 pb-1 hover:border-emerald-600">
+              <Link to="/a-propos" className="inline-flex items-center text-emerald-600 font-bold hover:text-emerald-700 transition-all group text-lg md:text-xl border-b-2 border-emerald-100 pb-1 hover:border-emerald-600">
                 Notre engagement qualité <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
@@ -246,16 +256,16 @@ const Home = () => {
             <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">De l'enregistrement réglementaire au pilotage de la force de vente, nous maîtrisons chaque maillon de votre succès.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
             {PILLARS.slice(0, 3).map((pillar) => (
-              <div key={pillar.id} className="group bg-white/[0.03] backdrop-blur-3xl p-12 md:p-16 rounded-[4rem] border border-white/10 hover:border-emerald-500/40 hover:bg-white/[0.07] transition-all duration-700 flex flex-col hover:-translate-y-6">
-                <div className="w-24 h-24 bg-emerald-500/10 rounded-[2rem] flex items-center justify-center text-emerald-400 mb-12 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-2xl">
-                  {getIcon(pillar.icon, 48)}
+              <div key={pillar.id} className="group bg-white/[0.03] backdrop-blur-3xl p-8 md:p-16 rounded-[2.5rem] md:rounded-[4rem] border border-white/10 hover:border-emerald-500/40 hover:bg-white/[0.07] transition-all duration-700 flex flex-col hover:-translate-y-6">
+                <div className="w-16 h-16 md:w-24 md:h-24 bg-emerald-500/10 rounded-2xl md:rounded-[2rem] flex items-center justify-center text-emerald-400 mb-8 md:mb-12 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-2xl">
+                  {getIcon(pillar.icon, 32)}
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white mb-8 font-serif leading-tight">{pillar.title}</h3>
-                <p className="text-slate-400 mb-12 text-lg md:text-xl leading-relaxed flex-grow">{pillar.description}</p>
-                <Link to="/expertise" className="inline-flex items-center text-emerald-400 font-bold text-sm tracking-widest uppercase group-hover:text-white transition-colors">
-                  Détails Stratégiques <ChevronRight size={20} className="ml-2 group-hover:translate-x-2 transition-transform" />
+                <h3 className="text-2xl md:text-4xl font-bold text-white mb-6 md:mb-8 font-serif leading-tight">{pillar.title}</h3>
+                <p className="text-slate-400 mb-8 md:mb-12 text-base md:text-xl leading-relaxed flex-grow">{pillar.description}</p>
+                <Link to="/expertise" className="inline-flex items-center text-emerald-400 font-bold text-[10px] md:text-sm tracking-[0.2em] md:tracking-widest uppercase group-hover:text-white transition-colors">
+                  Détails Stratégiques <ChevronRight size={18} className="ml-2 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
             ))}
@@ -313,16 +323,16 @@ const Home = () => {
               Prêt à accélérer votre croissance au Maroc avec le partenaire dermo-cosmétique n°1 ?
             </p>
 
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-14">
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 md:space-x-14">
               <Link
                 to="/contact"
-                className="w-full sm:w-auto bg-slate-900 text-white px-16 md:px-20 py-7 md:py-8 rounded-full font-bold text-2xl hover:bg-slate-800 transition-all shadow-[0_40px_100px_rgba(0,0,0,0.4)] transform hover:-translate-y-3"
+                className="w-full sm:w-auto bg-slate-900 text-white px-10 md:px-20 py-5 md:py-8 rounded-full font-bold text-lg md:text-2xl hover:bg-slate-800 transition-all shadow-xl md:shadow-[0_40px_100px_rgba(0,0,0,0.4)] transform hover:-translate-y-2 active:scale-95"
               >
                 Ouvrir le dialogue
               </Link>
               <Link
                 to="/partenaires"
-                className="w-full sm:w-auto bg-white/10 border-2 border-white/30 text-white px-16 md:px-20 py-7 md:py-8 rounded-full font-bold text-2xl hover:bg-white/20 transition-all backdrop-blur-xl transform hover:-translate-y-3"
+                className="w-full sm:w-auto bg-white/10 border-2 border-white/30 text-white px-10 md:px-20 py-5 md:py-8 rounded-full font-bold text-lg md:text-2xl hover:bg-white/20 transition-all backdrop-blur-xl transform hover:-translate-y-2 active:scale-95"
               >
                 Nos Références
               </Link>

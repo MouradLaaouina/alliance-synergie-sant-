@@ -12,7 +12,7 @@ const Partners = () => {
         description="Écosystème de laboratoires internationaux d'excellence partenaires d'A2S au Maroc."
       />
       {/* Compact Prestige Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
+      <section className="relative pt-24 pb-16 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
         {/* Mesh Gradient VFX */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.06)_0%,transparent_50%),radial-gradient(circle_at_70%_80%,rgba(6,95,70,0.08)_0%,transparent_50%)]"></div>
@@ -26,11 +26,11 @@ const Partners = () => {
             <span>Alliance Internationale</span>
           </div>
 
-          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-700">
             Écosystème de <span className="text-emerald-500 italic">Confiance Mondiale</span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             Nous bâtissons des ponts durables entre les laboratoires d'excellence et les besoins du marché marocain.
           </p>
         </div>
@@ -75,9 +75,9 @@ const Partners = () => {
         <section className="bg-slate-950 py-20 md:py-32 border-y border-white/5 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px]"></div>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="text-center mb-16 md:mb-20">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-serif leading-tight">Rejoignez l'élite du marché.</h2>
-              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">Un écosystème conçu pour la performance et la transparence.</p>
+            <div className="text-center mb-10 md:mb-20">
+              <h2 className="text-2xl md:text-5xl font-bold text-white mb-6 font-serif leading-tight">Rejoignez l'élite du marché.</h2>
+              <p className="text-slate-400 text-sm md:text-xl max-w-2xl mx-auto">Un écosystème conçu pour la performance et la transparence.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
