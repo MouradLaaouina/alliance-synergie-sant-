@@ -8,7 +8,7 @@ export default defineConfig({
     host: '0.0.0.0',
   },
   plugins: [react()],
-  base: "/alliance-synergie-sant-/",
+  base: "/alliance-synergie-sant-",
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
