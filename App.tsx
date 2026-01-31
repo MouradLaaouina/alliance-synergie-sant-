@@ -150,7 +150,7 @@ const Header = () => {
 };
 
 const Footer = () => (
-  <footer className="bg-slate-900 text-slate-400 pt-12 pb-8">
+  <footer className="bg-slate-900 text-slate-400 pt-12 pb-8 content-visibility-auto">
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-slate-800 pb-16">
         <div className="space-y-6">

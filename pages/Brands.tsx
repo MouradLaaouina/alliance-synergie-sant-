@@ -8,8 +8,9 @@ const Brands = () => {
   return (
     <div className="pb-16 md:pb-24 bg-white">
       <SEO
-        title="Marques Distribuées - Sélection Prestige"
-        description="Découvrez notre portfolio de marques prestigieuses : Égérie, Sensilis, BABÉ, D-Cap, D-White et plus."
+        title="Marques Dermo-Cosmétiques de Prestige | Portfolio A2S"
+        description="Découvrez nos marques exclusives : Sensilis, BABÉ, D-Cap, Casmara, Buccotherm. Des solutions expertes pour chaque type de peau : anti-âge, acné, peau sensible."
+        keywords="Marques cosmétiques Maroc, Sensilis Maroc, Laboratoires BABÉ, D-Cap coloration, Casmara soins, Buccotherm dentifrice, cosmétique haut de gamme, routine peau acnéique, anti-âge dermatologique, cosmétique bio, crème visage dermatologique recommandée, routine soin visage peau acnéique adulte, cosmétique bio certifiée peau réactive, soin anti-âge dermatologique pharmacie, produit dermo sans parfum ni parabène"
       />
       {/* Compact Prestige Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
@@ -63,6 +64,7 @@ const Brands = () => {
                     alt="Mouna Fettou, égérie des marques A2S au Maroc"
                     className="w-full h-auto object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -91,6 +93,7 @@ const Brands = () => {
                   alt="Mouna Fettou, égérie des marques A2S au Maroc"
                   className="w-full h-auto object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

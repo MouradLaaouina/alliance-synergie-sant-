@@ -7,8 +7,9 @@ const About = () => {
   return (
     <div className="bg-white">
       <SEO
-        title="À Propos - Notre Vision & Mission"
-        description="Découvrez A2S, leader de la dermo-cosmétique au Maroc depuis 16 ans. Notre mission : l'excellence au service de la santé."
+        title="Leader Dermo-Cosmétique Maroc | À Propos d'A2S"
+        description="A2S (Alliance Synergie Santé) est depuis 16 ans le partenaire stratégique des laboratoires au Maroc. Expertise en marketing, distribution et réglementation santé."
+        keywords="Alliance Synergie Santé, Mourad LAAOUINA, investissement cosmétique Maroc, expertise marché santé, dermo-cosmétique Maroc B2B, croissance durable santé, partenaire distribution pharmaceutique, laboratoire dermo-cosmétique france, distributeur produits cosmétiques uae, produttore dermocosmetico italia, fabricante dermocosmética españa, investissement industrie cosmétique"
       />
       {/* Compact Prestige Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-emerald-500/10">

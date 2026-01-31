@@ -163,8 +163,9 @@ const Contact = () => {
     return (
         <div className="min-h-screen bg-slate-50">
             <SEO
-                title="Contactez-nous - Support Stratégique"
-                description="Prêt à accélérer votre croissance au Maroc ? Contactez les experts A2S pour un accompagnement sur mesure."
+                title="Devenir Partenaire | Contact A2S Casablanca"
+                description="Prêt à conquérir le marché dermo-cosmétique au Maroc ? Contactez notre équipe d'experts pour une collaboration stratégique sur mesure."
+                keywords="Contact A2S Maroc, partenariat dermo-cosmétique, distribution produits santé, recrutement dermo-conseillère, siège A2S Casablanca, demande catalogue cosmétique, investissement beauté Maroc, investissement industrie cosmétique france, investment opportunities skincare uae, marchio dermocosmetico per distribuzione italia"
             />
             {/* Compact Prestige Hero Section */}
             <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-slate-950 overflow-hidden text-center border-b border-white/5">
@@ -194,15 +195,15 @@ const Contact = () => {
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/6 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
             </section>
 
-            <div className="bg-slate-50"> {}
+            <div className="bg-slate-50"> { }
 
             </div>
-            {}
+            { }
             <section className="py-20 md:py-32">
                 <div className="container mx-auto px-6">
                     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
 
-                        {}
+                        { }
                         <div className="lg:w-1/3 space-y-12">
                             <div>
                                 <h2 className="text-3xl font-bold text-slate-900 mb-8 font-serif leading-tight">Parlons de votre prochain <span className="text-emerald-600">succès au Maroc</span></h2>
@@ -245,7 +246,7 @@ const Contact = () => {
 
                         </div>
 
-           
+
                         <div className="lg:w-2/3">
                             <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-2xl shadow-slate-200/60 border border-slate-100 relative overflow-hidden">
                                 {submitted ? (

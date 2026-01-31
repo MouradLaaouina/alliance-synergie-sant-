@@ -3,11 +3,12 @@ import { useEffect } from 'react';
 interface SEOProps {
     title: string;
     description: string;
+    keywords?: string;
     canonical?: string;
     ogType?: string;
 }
 
-const SEO = ({ title, description, canonical, ogType = 'website' }: SEOProps) => {
+const SEO = ({ title, description, keywords, canonical, ogType = 'website' }: SEOProps) => {
     useEffect(() => {
         // Update Title
         document.title = `${title} | A2S - Alliance Synergie Santé`;
@@ -21,6 +22,19 @@ const SEO = ({ title, description, canonical, ogType = 'website' }: SEOProps) =>
             metaDescription.setAttribute('name', 'description');
             metaDescription.setAttribute('content', description);
             document.head.appendChild(metaDescription);
+        }
+
+        // Update Meta Keywords
+        if (keywords) {
+            let metaKeywords = document.querySelector('meta[name="keywords"]');
+            if (metaKeywords) {
+                metaKeywords.setAttribute('content', keywords);
+            } else {
+                metaKeywords = document.createElement('meta');
+                metaKeywords.setAttribute('name', 'keywords');
+                metaKeywords.setAttribute('content', keywords);
+                document.head.appendChild(metaKeywords);
+            }
         }
 
         // Update OpenGraph Tags
@@ -70,7 +84,7 @@ const SEO = ({ title, description, canonical, ogType = 'website' }: SEOProps) =>
             linkCanonical.setAttribute('href', canonicalUrl);
             document.head.appendChild(linkCanonical);
         }
-    }, [title, description, canonical, ogType]);
+    }, [title, description, keywords, canonical, ogType]);
 
     return null;
 };

@@ -16,7 +16,7 @@ const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
     ctaText = "Développer votre marque au Maroc avec A2S"
 }) => {
     return (
-        <section className="bg-slate-950 py-20 md:py-28 relative overflow-hidden border-t border-white/5">
+        <section className="bg-slate-950 py-20 md:py-28 relative overflow-hidden border-t border-white/5 content-visibility-auto">
             {/* Background VFX */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] blur-[120px]"></div>

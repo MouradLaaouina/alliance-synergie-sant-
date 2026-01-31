@@ -25,8 +25,9 @@ const Expertise = () => {
   return (
     <div className="pb-16 md:pb-24 bg-white">
       <SEO
-        title="Notre Expertise - Conseil & Distribution"
-        description="Ingénierie stratégique pour le marché dermo-cosmétique marocain : réglementaire, logistique, marketing et force de vente."
+        title="Expertise & Ingénierie Dermo-Cosmétique | A2S Maroc"
+        description="Maîtrise complète de la chaîne de valeur : enregistrement réglementaire, logistique pharmaceutique, force de vente terrain et marketing stratégique au Maroc."
+        keywords="Réglementation pharmaceutique Maroc, enregistrement dermo-cosmétique, marketing santé Maroc, logistique pharmaceutique Casablanca, force de vente dermo, A2S Académie, formation dermo-conseillère, audit marché santé, startup dermo-cosmétique innovation santé, fabricant cosmétique certifié iso france, sous-traitant formulation cosmétique, recherche et développement cosmétique italie"
       />
       {/* Compact Prestige Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">

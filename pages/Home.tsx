@@ -129,8 +129,9 @@ const Home = () => {
   return (
     <div className="overflow-hidden bg-slate-50">
       <SEO
-        title="Accueil - Leader Dermo-Cosmétique Maroc"
-        description="A2S est votre partenaire stratégique pour la distribution et la promotion de produits dermo-cosmétiques au Maroc. Expert en conseil et réglementation."
+        title="Expertise Dermo-Cosmétique au Maroc | Conseil & Distribution"
+        description="Leader de la distribution dermo-cosmétique au Maroc depuis 16 ans. A2S est le partenaire stratégique pour la promotion, le réglementaire et la force de vente pharmaceutique."
+        keywords="Dermo-cosmétique Maroc, distribution pharmaceutique Maroc, conseil santé, promotion cosmétique, leader dermo-cosmétique, soins dermatologiques, routine soin visage, peau sensible, partenaire stratégique laboratoires Maroc, enregistrement réglementaire santé, soin dermo-cosmétique fabriqué en france, dermatological skincare uae, trattamenti dermocosmetici italia, cuidado dermocosmético españa, dermo-cosmétique recommandée dermatologue"
       />
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-slate-950 pt-20 md:pt-28 pb-12">
@@ -312,6 +313,7 @@ const Home = () => {
                     alt={`${lab.name} - logo du laboratoire partenaire`}
                     className="h-full w-full object-contain"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <span className="mt-4 text-[10px] font-bold text-emerald-600/60 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">{lab.origin}</span>

@@ -8,8 +8,9 @@ const Partners = () => {
   return (
     <div className="pb-16 md:pb-24 bg-white">
       <SEO
-        title="Nos Partenaires - Confiance Mondiale"
-        description="Écosystème de laboratoires internationaux d'excellence partenaires d'A2S au Maroc."
+        title="Partenaires & Laboratoires Internationaux | A2S"
+        description="A2S collabore avec les leaders mondiaux de la dermo-cosmétique : Sensilis, BABÉ, Casmara. Un écosystème de confiance pour le marché marocain."
+        keywords="Laboratoires internationaux santé, partenaire distribution Maroc, cosmétique clean manufacturing, fournisseur dermo-cosmétique professionnel, fabricant soins certifiés, export dermo-cosmétique, distribution sélective parapharmacie, fournisseur dermo-cosmétique maroc, distributeur produits cosmétiques santé uae, laboratorio cosmetico partner italia, proveedor productos dermocosméticos españa"
       />
       {/* Compact Prestige Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-24 bg-slate-950 overflow-hidden text-center border-b border-white/5">
