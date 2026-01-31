@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { PARTNERS } from '../constants';
 import { ArrowUpRight, Globe2, CheckCircle } from 'lucide-react';
 import SEO from './SEO';
+import PartnershipCTA from './PartnershipCTA';
 
 const Partners = () => {
   return (
@@ -48,8 +48,10 @@ const Partners = () => {
                 <div className="h-40 md:h-48 bg-slate-50 flex items-center justify-center p-8 md:p-12 border-b border-slate-100 group-hover:bg-emerald-50 transition-colors">
                   <img
                     src={lab.logo}
-                    alt={`${lab.name} Logo`}
+                    alt={`${lab.name} - logo du laboratoire partenaire`}
                     className="max-h-full max-w-full opacity-60 group-hover:opacity-100 transition-all grayscale group-hover:grayscale-0 transform group-hover:scale-110 duration-500"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
@@ -61,9 +63,21 @@ const Partners = () => {
                   <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-8 flex-grow">{lab.description}</p>
                   <div className="flex items-center justify-between pt-6 border-t border-slate-100">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Partenaire A2S</span>
-                    <button className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-45">
-                      <ArrowUpRight size={20} />
-                    </button>
+                    {lab.website ? (
+                      <a
+                        href={lab.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-45"
+                        aria-label={`Visiter le site de ${lab.name}`}
+                      >
+                        <ArrowUpRight size={20} />
+                      </a>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                        <ArrowUpRight size={20} />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -120,6 +134,11 @@ const Partners = () => {
           </div>
         </section>
       </div>
+      <PartnershipCTA
+        title="Rejoignez notre réseau de laboratoires d'élite"
+        description="Faites partie d'un écosystème sélectif où la performance rencontre l'éthique pour une réussite mutuelle et durable pour vos produits au Maroc."
+        ctaText="Devenir partenaire privilégié"
+      />
     </div>
   );
 };

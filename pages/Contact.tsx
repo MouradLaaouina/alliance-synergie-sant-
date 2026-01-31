@@ -1,7 +1,17 @@
 
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Globe, Linkedin, MessageSquare, CheckCircle, Loader2 } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle, Loader2 } from 'lucide-react';
 import SEO from './SEO';
+
+declare global {
+    interface Window {
+        turnstile?: {
+            render: (container: HTMLElement, options: Record<string, unknown>) => string;
+            reset: (widgetId: string) => void;
+            remove: (widgetId: string) => void;
+        };
+    }
+}
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -11,18 +21,24 @@ const Contact = () => {
         phone: '',
         interest: '',
         otherInterest: '',
-        message: ''
+        message: '',
+        website_url: '',
+        captchaToken: ''
     });
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+    const [captchaError, setCaptchaError] = useState<string | null>(null);
+    const turnstileSiteKey = (import.meta.env.VITE_TURNSTILE_SITE_KEY || '').trim();
+    const captchaRef = useRef<HTMLDivElement | null>(null);
+    const captchaWidgetId = useRef<string | null>(null);
+    const [turnstileReady, setTurnstileReady] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value,
-            // Clear otherInterest if interest changes from 'Autres'
             ...(name === 'interest' && value !== 'Autres' ? { otherInterest: '' } : {})
         }));
     };
@@ -31,20 +47,29 @@ const Contact = () => {
         e.preventDefault();
         setIsSubmitting(true);
         setSubmitStatus(null);
+        setCaptchaError(null);
+
+        if (turnstileSiteKey && !formData.captchaToken) {
+            setIsSubmitting(false);
+            setCaptchaError('Veuillez valider le captcha.');
+            return;
+        }
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            const response = await fetch(`${apiUrl}/api/contact`, {
+            const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+            const endpoint = apiBase ? `${apiBase}/api/contact.php` : '/api/contact.php';
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
+            const data = await response.json().catch(() => ({}));
 
-            if (data.success) {
+            if (response.ok && data.success) {
                 setSubmitted(true);
                 setSubmitStatus('success');
                 setFormData({
@@ -54,8 +79,13 @@ const Contact = () => {
                     phone: '',
                     interest: '',
                     otherInterest: '',
-                    message: ''
+                    message: '',
+                    website_url: '',
+                    captchaToken: ''
                 });
+                if (turnstileSiteKey && window.turnstile && captchaWidgetId.current) {
+                    window.turnstile.reset(captchaWidgetId.current);
+                }
                 setTimeout(() => setSubmitted(false), 5000);
             } else {
                 setSubmitStatus('error');
@@ -67,6 +97,68 @@ const Contact = () => {
             setIsSubmitting(false);
         }
     };
+
+    useEffect(() => {
+        if (!turnstileSiteKey || !captchaRef.current) {
+            return;
+        }
+
+        if (window.turnstile) {
+            setTurnstileReady(true);
+            return;
+        }
+
+        const existingScript = document.getElementById('cf-turnstile-script') as HTMLScriptElement | null;
+        if (existingScript) {
+            const onLoad = () => setTurnstileReady(true);
+            existingScript.addEventListener('load', onLoad, { once: true });
+            return () => existingScript.removeEventListener('load', onLoad);
+        }
+
+        const script = document.createElement('script');
+        script.id = 'cf-turnstile-script';
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+        script.async = true;
+        script.defer = true;
+        script.onload = () => setTurnstileReady(true);
+        script.onerror = () => setCaptchaError('Captcha indisponible. Merci de réessayer.');
+        document.head.appendChild(script);
+
+        return () => {
+            script.onload = null;
+            script.onerror = null;
+        };
+    }, [turnstileSiteKey]);
+
+    useEffect(() => {
+        if (!turnstileSiteKey || !turnstileReady || !captchaRef.current || !window.turnstile) {
+            return;
+        }
+
+        if (!captchaWidgetId.current) {
+            captchaWidgetId.current = window.turnstile.render(captchaRef.current, {
+                sitekey: turnstileSiteKey,
+                callback: (token: string) => {
+                    setFormData(prev => ({ ...prev, captchaToken: token }));
+                    setCaptchaError(null);
+                },
+                'expired-callback': () => {
+                    setFormData(prev => ({ ...prev, captchaToken: '' }));
+                },
+                'error-callback': () => {
+                    setFormData(prev => ({ ...prev, captchaToken: '' }));
+                    setCaptchaError('Captcha indisponible. Merci de réessayer.');
+                }
+            });
+        }
+
+        return () => {
+            if (window.turnstile && captchaWidgetId.current) {
+                window.turnstile.remove(captchaWidgetId.current);
+                captchaWidgetId.current = null;
+            }
+        };
+    }, [turnstileReady, turnstileSiteKey]);
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -102,15 +194,15 @@ const Contact = () => {
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/6 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent"></div>
             </section>
 
-            <div className="bg-slate-50"> {/* Container transition */}
+            <div className="bg-slate-50"> {}
 
             </div>
-            {/* Main Content */}
+            {}
             <section className="py-20 md:py-32">
                 <div className="container mx-auto px-6">
                     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
 
-                        {/* Left: Contact Info */}
+                        {}
                         <div className="lg:w-1/3 space-y-12">
                             <div>
                                 <h2 className="text-3xl font-bold text-slate-900 mb-8 font-serif leading-tight">Parlons de votre prochain <span className="text-emerald-600">succès au Maroc</span></h2>
@@ -145,44 +237,49 @@ const Contact = () => {
                                         <Mail size={24} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-slate-900 uppercase tracking-wider text-sm mb-1">Email E-mail</h4>
+                                        <h4 className="font-bold text-slate-900 uppercase tracking-wider text-sm mb-1">Email</h4>
                                         <p className="text-slate-500 leading-relaxed">contact@a2s.ma</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="pt-10 border-t border-slate-200">
-                                <h4 className="font-bold text-slate-900 mb-6 uppercase tracking-[0.2em] text-xs">Suivez notre actualité</h4>
-                                <div className="flex space-x-6 text-slate-400">
-                                    <a href="#" className="hover:text-emerald-600 transition-colors"><Linkedin size={24} /></a>
-                                    <a href="#" className="hover:text-emerald-600 transition-colors"><Globe size={24} /></a>
-                                    <a href="#" className="hover:text-emerald-600 transition-colors"><MessageSquare size={24} /></a>
-                                </div>
-                            </div>
                         </div>
 
-                        {/* Right: Contact Form */}
+           
                         <div className="lg:w-2/3">
                             <div className="bg-white p-10 md:p-16 rounded-[3rem] shadow-2xl shadow-slate-200/60 border border-slate-100 relative overflow-hidden">
                                 {submitted ? (
-                                    <div className="py-20 text-center animate-in fade-in zoom-in duration-500">
+                                    <div className="py-20 text-center animate-in fade-in zoom-in duration-500" role="status" aria-live="polite">
                                         <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto mb-8">
                                             <CheckCircle size={48} />
                                         </div>
-                                        <h3 className="text-3xl font-bold text-slate-900 mb-4 font-serif">Message envoyé !</h3>
-                                        <p className="text-slate-500 text-lg">Nos experts reviendront vers vous sous 24h à 48h.</p>
+                                        <h3 className="text-3xl font-bold text-slate-900 mb-4 font-serif">Demande bien enregistrée</h3>
+                                        <p className="text-slate-500 text-lg">Merci pour votre message. Notre équipe vous répondra sous 24 à 48 heures ouvrées.</p>
                                     </div>
                                 ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-8">
+                                    <form onSubmit={handleSubmit} className="space-y-8" aria-busy={isSubmitting}>
+                                        {/* Honeypot field - Hidden from users */}
+                                        <div className="hidden" aria-hidden="true">
+                                            <input
+                                                type="text"
+                                                name="website_url"
+                                                value={formData.website_url}
+                                                onChange={handleInputChange}
+                                                tabIndex={-1}
+                                                autoComplete="off"
+                                            />
+                                        </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div className="space-y-3">
                                                 <label htmlFor="name" className="text-slate-900 font-bold text-sm ml-1">Nom Complet</label>
                                                 <input
                                                     id="name"
                                                     name="name"
+                                                    autoComplete="name"
                                                     value={formData.name}
                                                     onChange={handleInputChange}
                                                     type="text"
+                                                    maxLength={100}
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
                                                     placeholder="Ex: Mourad Laaouina"
@@ -193,9 +290,11 @@ const Contact = () => {
                                                 <input
                                                     id="company"
                                                     name="company"
+                                                    autoComplete="organization"
                                                     value={formData.company}
                                                     onChange={handleInputChange}
                                                     type="text"
+                                                    maxLength={120}
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
                                                     placeholder="Nom de votre entreprise"
@@ -209,9 +308,11 @@ const Contact = () => {
                                                 <input
                                                     id="email"
                                                     name="email"
+                                                    autoComplete="email"
                                                     value={formData.email}
                                                     onChange={handleInputChange}
                                                     type="email"
+                                                    maxLength={254}
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
                                                     placeholder="mourad.laaouina@entreprise.com"
@@ -222,9 +323,13 @@ const Contact = () => {
                                                 <input
                                                     id="phone"
                                                     name="phone"
+                                                    autoComplete="tel"
+                                                    inputMode="tel"
                                                     value={formData.phone}
                                                     onChange={handleInputChange}
                                                     type="tel"
+                                                    maxLength={40}
+                                                    pattern="[0-9+().\\s-]{6,}"
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
                                                     placeholder="+212 6 00 00 00 00"
@@ -260,6 +365,7 @@ const Contact = () => {
                                                     value={formData.otherInterest}
                                                     onChange={handleInputChange}
                                                     type="text"
+                                                    maxLength={120}
                                                     required={formData.interest === 'Autres'}
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
                                                     placeholder="Votre domaine spécifique..."
@@ -272,14 +378,27 @@ const Contact = () => {
                                             <textarea
                                                 id="message"
                                                 name="message"
+                                                autoComplete="off"
                                                 value={formData.message}
                                                 onChange={handleInputChange}
                                                 required
                                                 rows={6}
+                                                maxLength={4000}
                                                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 resize-none placeholder:text-slate-400"
                                                 placeholder="Décrivez brièvement votre projet ou votre demande..."
                                             ></textarea>
                                         </div>
+                                        {turnstileSiteKey && (
+                                            <div className="space-y-3">
+                                                <label className="text-slate-900 font-bold text-sm ml-1">Vérification</label>
+                                                <div ref={captchaRef} className="min-h-[65px]"></div>
+                                                {captchaError && (
+                                                    <div className="text-sm text-red-600 font-medium" role="alert">
+                                                        {captchaError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                         <button
                                             type="submit"
                                             disabled={isSubmitting}
@@ -300,8 +419,8 @@ const Contact = () => {
                                         </button>
 
                                         {submitStatus === 'error' && (
-                                            <div className="mt-4 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm text-center font-medium animate-in fade-in zoom-in duration-300">
-                                                Une erreur est survenue lors de l'envoi. Veuillez vérifier vos accès MySQL ou réessayer plus tard.
+                                            <div className="mt-4 p-4 bg-red-50 border border-red-100 rounded-2xl text-red-600 text-sm text-center font-medium animate-in fade-in zoom-in duration-300" role="alert">
+                                                L'envoi a échoué pour le moment. Merci de réessayer dans quelques minutes ou de nous écrire directement.
                                             </div>
                                         )}
                                     </form>

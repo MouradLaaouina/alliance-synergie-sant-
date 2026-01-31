@@ -1,7 +1,0 @@
-{
-  "name": "Alliance Synergie Santé (A2S)",
-  "description": "Plateforme institutionnelle Alliance Synergie Santé (A2S), leader de la dermo-cosmétique au Maroc. Un portail B2B stratégique pour les laboratoires internationaux et un guide de confiance pour les consommateurs.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
-}

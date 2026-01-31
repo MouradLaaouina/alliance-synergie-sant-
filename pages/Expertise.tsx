@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { getIcon, PILLARS } from '../constants';
 import { analyzeStrategyLocally, AnalysisResult } from '../strategyEngine';
 import { Sparkles, Loader2, Send, CheckCircle2, TrendingUp, Award } from 'lucide-react';
 import SEO from './SEO';
+import PartnershipCTA from './PartnershipCTA';
 
 const Expertise = () => {
   const [labInput, setLabInput] = useState('');
@@ -44,11 +44,11 @@ const Expertise = () => {
             <span>Excellence Stratégique</span>
           </div>
 
-          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
+          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
             Notre <span className="text-emerald-500 italic">Ingénierie Stratégique</span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             Une approche à 360° pour transformer chaque défi du marché marocain en <span className="text-white font-medium">opportunité de croissance</span>.
           </p>
         </div>
@@ -107,8 +107,11 @@ const Expertise = () => {
                 Découvrez comment notre modèle unique s'applique à votre laboratoire. Décrivez votre projet, et notre algorithme analysera les synergies possibles avec les 10 piliers d'A2S.
               </p>
 
-              <form onSubmit={handleCalculateSynergy} className="relative mb-8">
+              <form onSubmit={handleCalculateSynergy} className="relative mb-8" aria-busy={isLoading}>
+                <label htmlFor="labInput" className="sr-only">Décrivez votre projet</label>
                 <textarea
+                  id="labInput"
+                  name="labInput"
                   value={labInput}
                   onChange={(e) => setLabInput(e.target.value)}
                   placeholder="Ex: Laboratoire français expert en soins anti-âge cherchant une distribution sélective en officine..."
@@ -125,7 +128,7 @@ const Expertise = () => {
               </form>
 
               {analysis && (
-                <div className="bg-emerald-600/20 border border-emerald-500/30 p-6 md:p-10 rounded-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="bg-emerald-600/20 border border-emerald-500/30 p-6 md:p-10 rounded-2xl animate-in fade-in slide-in-from-bottom-4 duration-500" role="status" aria-live="polite">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                     <div className="flex items-center space-x-2 text-emerald-400 font-bold uppercase tracking-widest text-[10px] md:text-xs">
                       <Sparkles size={14} />
@@ -178,7 +181,13 @@ const Expertise = () => {
             </div>
             <div className="order-1 lg:order-2 relative w-full">
               <div className="bg-slate-100 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl aspect-video md:aspect-[4/3] lg:aspect-video">
-                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=800" alt="Formation terrain" className="w-full h-full object-cover" />
+                <img
+                  src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&q=80&w=800"
+                  alt="Équipe terrain en réunion - accompagnement commercial A2S"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent flex items-end p-6 md:p-10">
                   <div className="text-white">
                     <p className="text-2xl md:text-3xl font-bold mb-2">L'excellence terrain.</p>
@@ -190,6 +199,11 @@ const Expertise = () => {
           </div>
         </section>
       </div>
+      <PartnershipCTA
+        title="Propulsez votre expertise au niveau supérieur"
+        description="Profitez de notre ingénierie tactique et de notre force de frappe terrain pour optimiser votre présence et vos résultats sur l'ensemble du Royaume."
+        ctaText="Activer nos leviers de croissance"
+      />
     </div>
   );
 };

@@ -12,15 +12,48 @@
     <meta name="keywords"
         content="A2S, Alliance Synergie Santé, dermo-cosmétique, distribution Maroc, conseil santé, promotion pharmaceutique, enregistrement réglementaire Maroc">
     <meta name="author" content="A2S - Mourad LAAOUINA">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="color-scheme" content="light">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://a2s.ma/">
+    <link rel="alternate" hreflang="fr-ma" href="https://a2s.ma/">
+    <link rel="alternate" hreflang="x-default" href="https://a2s.ma/">
+
+    <!-- Google Tag Manager (deferred for performance) -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0];
+            function loadGTM() {
+                if (d.getElementById('gtm-js')) return;
+                var j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.id = 'gtm-js';
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            }
+            if (d.readyState === 'complete') {
+                loadGTM();
+            } else {
+                w.addEventListener('load', loadGTM, { once: true });
+            }
+        })(window, document, 'script', 'dataLayer', 'GTM-TD9X8BZV');
+    </script>
+    <!-- End Google Tag Manager -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://a2s.ma/">
+    <meta property="og:locale" content="fr_MA">
+    <meta property="og:site_name" content="A2S">
     <meta property="og:title" content="A2S | Alliance Synergie Santé - Expert Dermo-cosmétique au Maroc">
     <meta property="og:description"
         content="Leader du conseil et de la distribution dermo-cosmétique au Maroc. Votre partenaire stratégique pour une croissance durable.">
     <meta property="og:image" content="https://a2s.ma/images/A2S_logo.webp">
+    <meta property="og:image:alt" content="A2S - Alliance Synergie Santé">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -29,163 +62,25 @@
     <meta property="twitter:description"
         content="Leader du conseil et de la distribution dermo-cosmétique au Maroc. Votre partenaire stratégique pour une croissance durable.">
     <meta property="twitter:image" content="https://a2s.ma/images/A2S_logo.webp">
+    <meta name="twitter:image:alt" content="A2S - Alliance Synergie Santé">
 
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
+        rel="preload"
+        as="style"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
-        rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        ::selection {
-            background-color: #10b981;
-            color: white;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #059669;
-            /* emerald-600 */
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #047857;
-            /* emerald-700 */
-        }
-
-        /* Animations de texte et contenu */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes scaleHero {
-            from {
-                transform: scale(1.1);
-            }
-
-            to {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-        }
-
-        .animate-fade-in-up {
-            opacity: 0;
-            animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .animate-hero-bg {
-            animation: scaleHero 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .delay-100 {
-            animation-delay: 0.1s;
-        }
-
-        .delay-300 {
-            animation-delay: 0.3s;
-        }
-
-        .delay-500 {
-            animation-delay: 0.5s;
-        }
-
-        .delay-700 {
-            animation-delay: 0.7s;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(16, 185, 129, 0.15);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 5;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        /* Animation Marquee pour la bande passante des partenaires */
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: scroll 40s linear infinite;
-        }
-
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
-    </style>
-    <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0"
-  }
-}
-</script>
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap">
+    </noscript>
+    <link rel="preload" as="image" href="/images/A2S-Logo-white.webp">
     <link rel="stylesheet" href="/index.css">
     <script type="application/ld+json">
     {
@@ -211,9 +106,23 @@
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Alliance Synergie Santé (A2S)",
+      "url": "https://a2s.ma/"
+    }
+    </script>
 </head>
 
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TD9X8BZV"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

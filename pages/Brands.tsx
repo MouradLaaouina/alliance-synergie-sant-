@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { BRANDS } from '../constants';
 import { ExternalLink, Star, ChevronRight, Instagram } from 'lucide-react';
 import SEO from './SEO';
+import PartnershipCTA from './PartnershipCTA';
 
 const Brands = () => {
   return (
@@ -26,11 +26,11 @@ const Brands = () => {
             <span>Iconic Portfolio</span>
           </div>
 
-          <h1 className="text-balance text-4xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
+          <h1 className="text-balance text-3xl md:text-6xl font-bold text-white mb-6 font-serif tracking-tight leading-[1.1] animate-in fade-in slide-in-from-top-6 duration-700">
             Nos fleurons d' <span className="text-emerald-500 italic">excellence.</span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <p className="text-sm md:text-xl text-slate-300/90 font-light leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             Une sélection rigoureuse des marques les plus prestigieuses, alliant science et résultats.
           </p>
         </div>
@@ -42,38 +42,56 @@ const Brands = () => {
 
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24 md:mb-32">
-          {/* Egérie Section - Adaptive Layout */}
-          <div className="bg-emerald-600 rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 lg:p-24 text-white relative overflow-hidden mb-16 md:mb-24 shadow-2xl">
-            <div className="absolute top-0 right-0 w-full lg:w-1/2 h-full">
-              <video
-                src="images/Egere_national.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                className="w-full h-full object-cover opacity-30 lg:opacity-60 mix-blend-overlay lg:mix-blend-normal"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-600 via-emerald-600/50 to-transparent lg:hidden"></div>
-            </div>
-            <div className="relative z-10 max-w-2xl">
+          {/* Egérie Section - Simplified & Professional Layout */}
+          <div className="bg-emerald-600 rounded-[2.5rem] md:rounded-[4rem] px-8 py-5 md:px-12 md:py-8 lg:px-16 lg:py-10 text-white flex flex-col lg:flex-row items-center gap-8 lg:gap-16 shadow-2xl mb-16 md:mb-24 relative overflow-hidden">
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+
+            {/* Text Content */}
+            <div className="w-full lg:w-1/2 relative z-10">
               <div className="flex items-center space-x-2 mb-6">
                 <Star className="text-yellow-400 fill-yellow-400" size={24} />
                 <span className="font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs">Égérie Nationale & Prestige</span>
               </div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-8 font-serif leading-tight">Mouna Fettou : <br className="hidden md:block" /> L'élégance de la confiance.</h2>
-              <p className="text-lg md:text-xl text-emerald-100 mb-10 leading-relaxed max-w-lg">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-serif leading-tight">Mouna Fettou : <br className="hidden md:block" /> L'élégance de la confiance.</h2>
+
+              {/* Image Content - Visible ONLY on Mobile/Tablet between Title and Description */}
+              <div className="lg:hidden mb-6">
+                <div className="w-full max-w-xs mx-auto rounded-[2rem] overflow-hidden shadow-xl border border-white/20">
+                  <img
+                    src="images/A2S-CONF-PRESSE-MOUNA-FETTOU.webp"
+                    alt="Mouna Fettou, égérie des marques A2S au Maroc"
+                    className="w-full h-auto object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              <p className="text-sm md:text-lg lg:text-xl text-emerald-100 mb-6 md:mb-8 leading-relaxed max-w-lg">
                 Ambassadrice emblématique, élégante et intergénérationnelle, Mouna Fettou incarne parfaitement les valeurs d'excellence et de proximité de nos marques au Maroc.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 text-sm md:text-base">
-                <div className="border-l-2 border-white/30 pl-6 group">
-                  <p className="font-bold text-white mb-1 group-hover:text-yellow-400 transition-colors">Notoriété Immédiate</p>
-                  <p className="text-emerald-200 text-sm">Une icône aimée par toutes les générations de femmes marocaines.</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 text-xs md:text-sm lg:text-base">
+                <div className="border-l-2 border-white/30 pl-4 md:pl-6">
+                  <p className="font-bold text-white mb-0.5">Notoriété Immédiate</p>
+                  <p className="text-emerald-200">Une icône aimée par tous.</p>
                 </div>
-                <div className="border-l-2 border-white/30 pl-6 group">
-                  <p className="font-bold text-white mb-1 group-hover:text-yellow-400 transition-colors">Crédibilité Premium</p>
-                  <p className="text-emerald-200 text-sm">Une association d'image puissante pour des lancements réussis.</p>
+                <div className="border-l-2 border-white/30 pl-4 md:pl-6">
+                  <p className="font-bold text-white mb-0.5">Crédibilité Premium</p>
+                  <p className="text-emerald-200">Association d'image puissante.</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Desktop Image Content - Visible ONLY on lg screens */}
+            <div className="hidden lg:flex lg:w-1/2 justify-center relative z-10">
+              <div className="w-full max-w-sm rounded-[3rem] overflow-hidden shadow-2xl border border-white/20">
+                <img
+                  src="images/A2S-CONF-PRESSE-MOUNA-FETTOU.webp"
+                  alt="Mouna Fettou, égérie des marques A2S au Maroc"
+                  className="w-full h-auto object-cover"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -82,7 +100,7 @@ const Brands = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
             {BRANDS.map((brand) => (
               <div key={brand.name} className="flex flex-col md:flex-row bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 hover:shadow-2xl transition-all duration-500 group">
-                <div className="md:w-5/12 h-64 md:h-auto overflow-hidden relative">
+                <div className="md:w-5/12 h-64 md:h-auto overflow-hidden relative bg-white flex items-center justify-center p-6">
                   {brand.video ? (
                     <video
                       src={brand.video}
@@ -90,15 +108,17 @@ const Brands = () => {
                       muted
                       loop
                       playsInline
-                      preload="auto"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                      preload="metadata"
+                      aria-label={`${brand.name} présentation vidéo`}
+                      className="w-full h-full object-contain"
                     />
                   ) : (
                     <img
                       src={brand.image}
-                      alt={`${brand.name} Product`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                      alt={`${brand.name} - gamme de produits dermo-cosmétiques`}
+                      className="w-full h-full object-contain"
                       loading="lazy"
+                      decoding="async"
                     />
                   )}
                 </div>
@@ -150,6 +170,11 @@ const Brands = () => {
           </div>
         </section>
       </div>
+      <PartnershipCTA
+        title="Donnez à votre marque le rayonnement qu'elle mérite"
+        description="Maximisez la visibilité et la notoriété de vos produits grâce à notre expertise marketing intégrée et nos ambassadeurs de renom au Maroc."
+        ctaText="Déployer votre marque avec A2S"
+      />
     </div>
   );
 };

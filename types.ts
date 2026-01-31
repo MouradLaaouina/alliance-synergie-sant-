@@ -12,6 +12,7 @@ export interface PartnerLab {
   origin: string;
   description: string;
   logo: string;
+  website?: string;
 }
 
 export interface Brand {

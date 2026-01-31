@@ -87,12 +87,48 @@ export const PILLARS: ServicePillar[] = [
 ];
 
 export const PARTNERS: PartnerLab[] = [
-  { name: "Dermalliance", origin: "Espagne", description: "Développeur des marques D-WHITE & DCAP", logo: "images/partenaires/Dermalliance.webp" },
-  { name: "Dermofarm", origin: "Espagne", description: "Expert européen en soins dermo", logo: "images/partenaires/Dermofarm.webp" },
-  { name: "BABÉ Laboratorios", origin: "Espagne", description: "Soins dermo-cosmétiques essentiels", logo: "images/partenaires/BABE.webp" },
-  { name: "Florame", origin: "France", description: "Aromathérapie et cosmétiques bio certifiés", logo: "images/partenaires/Florame.webp" },
-  { name: "Labo ODOST", origin: "France", description: "Hygiène bucco-dentaire à l'eau thermale", logo: "images/partenaires/Labo ODOST.webp" },
-  { name: "Casmara", origin: "Espagne", description: "Cosmétique professionnelle haut de gamme", logo: "images/partenaires/CASMARA.webp" }
+  {
+    name: "Dermalliance",
+    origin: "Espagne",
+    description: "Développeur des marques D-WHITE & DCAP",
+    logo: "/images/Dermalliance.webp",
+    website: "https://www.dermalliances.com/"
+  },
+  {
+    name: "Dermofarm",
+    origin: "Espagne",
+    description: "Expert européen en soins dermo",
+    logo: "/images/Dermofarm.webp",
+    website: "https://www.dermofarm.com/"
+  },
+  {
+    name: "BABÉ Laboratorios",
+    origin: "Espagne",
+    description: "Soins dermo-cosmétiques essentiels",
+    logo: "/images/BABE.webp",
+    website: "https://laboratoriosbabe.com"
+  },
+  {
+    name: "Florame",
+    origin: "France",
+    description: "Aromathérapie et cosmétiques bio certifiés",
+    logo: "/images/Florame.webp",
+    website: "https://fr.florame.com/"
+  },
+  {
+    name: "Labo ODOST",
+    origin: "France",
+    description: "Hygiène bucco-dentaire à l'eau thermale",
+    logo: "/images/Labo ODOST.webp",
+    website: "https://www.buccotherm.com/"
+  },
+  {
+    name: "Casmara",
+    origin: "Espagne",
+    description: "Cosmétique professionnelle haut de gamme",
+    logo: "/images/CASMARA.webp",
+    website: "https://www.casmara.com/fr/"
+  }
 ];
 
 export const BRANDS: Brand[] = [
@@ -100,8 +136,7 @@ export const BRANDS: Brand[] = [
     name: "D-WHITE",
     owner: "Dermalliance",
     description: "Spécialiste en éclaircissement et uniformisation de la peau pour un teint radieux et lumineux.",
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800",
-    video: "images/D-White.mp4",
+    image: "images/DWHITE1.webp",
     website: "https://dwhite.ma/",
     instagram: "https://www.instagram.com/dwhite.maroc.a2s/"
   },
@@ -109,8 +144,7 @@ export const BRANDS: Brand[] = [
     name: "D-CAP",
     owner: "Dermalliance",
     description: "Solutions capillaires innovantes : anti-chute, shampoings thérapeutiques, masques réparateurs.",
-    image: "https://images.unsplash.com/photo-1527799822394-46585d800585?auto=format&fit=crop&q=80&w=800",
-    video: "images/D-CAP.mp4",
+    image: "images/DCAP1.webp",
     website: "https://d-cap.ma/",
     instagram: "https://www.instagram.com/dcap.maroc.a2s/"
   },
@@ -118,8 +152,7 @@ export const BRANDS: Brand[] = [
     name: "BABÉ",
     owner: "Espagne",
     description: "Gammes pédiatriques et dermatologiques pour toute la famille, formulées sans compromis.",
-    image: "https://images.unsplash.com/photo-1550246140-5119ae4790b8?auto=format&fit=crop&q=80&w=800",
-    video: "images/BABE.mp4",
+    image: "images/BABE.webp",
     website: "https://laboratoriosbabe.com/",
     instagram: "https://www.instagram.com/babelaboratorios.maroc/"
   },
@@ -127,8 +160,7 @@ export const BRANDS: Brand[] = [
     name: "Sensilis",
     owner: "Espagne",
     description: "Soins intimes féminins et solutions gynécologiques recommandées par les spécialistes.",
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800",
-    video: "images/Sensilis.mp4",
+    image: "images/SENSILIS1.webp",
     website: "https://sensilis.ma/fr",
     instagram: "https://www.instagram.com/sensilis.maroc/"
   },
@@ -136,8 +168,7 @@ export const BRANDS: Brand[] = [
     name: "Buccotherm",
     owner: "France",
     description: "Hygiène bucco-dentaire à l'eau thermale, dentifrices et soins pour toute la famille.",
-    image: "https://images.unsplash.com/photo-1559591937-e6b7cf037e1a?auto=format&fit=crop&q=80&w=800",
-    video: "images/BuccoTherm.mp4",
+    image: "images/Bucco1.webp",
     website: "https://www.buccotherm.com/",
     instagram: "https://www.instagram.com/buccotherm.maroc.a2s/"
   },
@@ -145,8 +176,7 @@ export const BRANDS: Brand[] = [
     name: "CASTERA",
     owner: "France",
     description: "Eau thermale et soins apaisants pour les peaux sensibles, inspirés de l'expertise thermale.",
-    image: "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&q=80&w=800",
-    video: "images/Castera.mp4",
+    image: "images/CASTERA1.webp",
     website: "https://www.castera-thermal.com/",
     instagram: "https://www.instagram.com/castera.maroc.a2s/"
   },
@@ -154,8 +184,7 @@ export const BRANDS: Brand[] = [
     name: "Casmara",
     owner: "Espagne",
     description: "Masques peel-off professionnels et soins d'institut de renommée mondiale.",
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=800",
-    video: "images/Casmara.mp4",
+    image: "images/CASMARA (1).webp",
     website: "https://www.casmara.com/",
     instagram: "https://www.instagram.com/casmara_maroc_officiel/"
   },
@@ -163,8 +192,7 @@ export const BRANDS: Brand[] = [
     name: "Florame",
     owner: "France",
     description: "Aromathérapie et cosmétiques bio certifiés, huiles essentielles pures et naturelles.",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800",
-    video: "images/Florame.mp4",
+    image: "images/FLORAME (1).webp",
     website: "https://fr.florame.com/",
     instagram: "https://www.instagram.com/florame.a2s.maroc/"
   }

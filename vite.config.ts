@@ -8,10 +8,25 @@ export default defineConfig({
     host: '0.0.0.0',
   },
   plugins: [react()],
-  base: "/alliance-synergie-sant-",
+
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
     }
-  }
+  },
+  build: {
+    target: 'es2018',
+    minify: 'esbuild',
+    cssCodeSplit: true,
+    sourcemap: false,
+    assetsInlineLimit: 4096,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+  },
 });

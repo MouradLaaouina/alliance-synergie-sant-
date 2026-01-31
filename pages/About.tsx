@@ -1,11 +1,11 @@
-
 import React from 'react';
-import { Target, Eye, ShieldCheck, Users, Globe, Building2, CheckCircle2 } from 'lucide-react';
+import { Target, Eye, ShieldCheck, Users, Globe, CheckCircle2 } from 'lucide-react';
 import SEO from './SEO';
+import PartnershipCTA from './PartnershipCTA';
 
 const About = () => {
   return (
-    <div className="pb-16 md:pb-24 bg-white">
+    <div className="bg-white">
       <SEO
         title="À Propos - Notre Vision & Mission"
         description="Découvrez A2S, leader de la dermo-cosmétique au Maroc depuis 16 ans. Notre mission : l'excellence au service de la santé."
@@ -138,6 +138,11 @@ const About = () => {
           </div>
         </section>
       </div>
+      <PartnershipCTA
+        title="Construisons l'avenir de la santé ensemble"
+        description="A2S s'engage dans des collaborations de long terme basées sur l'excellence opérationnelle, l'éthique et le respect absolu des standards internationaux."
+        ctaText="Partagez notre vision stratégique"
+      />
     </div>
   );
 };
