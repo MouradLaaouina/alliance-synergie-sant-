@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (is_resource($handle)) {
                     save_rate_limit_state($handle, $state);
                 }
-                $error = 'Too many attempts. Try again in ' . $wait . ' min.';
+                $error = 'Trop de tentatives. Réessayez dans ' . $wait . ' min.';
             }
         }
 
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_regenerate_id(true);
                 $_SESSION['auth'] = true;
                 $_SESSION['last_activity'] = time();
-                header('Location: /admin/');
+                header('Location: /admin/index.php');
                 exit;
             }
 
@@ -180,13 +180,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $state['count'] = (int)$state['count'] + 1;
                 if ($state['count'] >= $rateLimitMax) {
                     $state['lock_until'] = time() + $rateLimitLock;
-                    $error = 'Too many attempts. Try again later.';
+                    $error = 'Trop de tentatives. Réessayez plus tard.';
                 } else {
-                    $error = 'Invalid credentials.';
+                    $error = 'Identifiants invalides.';
                 }
                 save_rate_limit_state($handle, $state);
             } else {
-                $error = 'Invalid credentials.';
+                $error = 'Identifiants invalides.';
             }
         }
     }
@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (isset($_GET['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header('Location: /admin/');
+    header('Location: /admin/index.php');
     exit;
 }
 
@@ -203,7 +203,7 @@ if (!empty($_SESSION['auth'])) {
     if (!isset($_SESSION['last_activity']) || (time() - (int)$_SESSION['last_activity']) > ($sessionTimeout * 60)) {
         $_SESSION = [];
         session_destroy();
-        header('Location: /admin/');
+        header('Location: /admin/index.php');
         exit;
     }
     $_SESSION['last_activity'] = time();
@@ -217,30 +217,151 @@ if (empty($_SESSION['auth'])) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Admin - A2S</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <style>
-            body { font-family: Arial, sans-serif; background:#0f172a; color:#e2e8f0; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
-            .card { background:#111827; padding:32px; border-radius:16px; width:100%; max-width:420px; box-shadow:0 20px 40px rgba(0,0,0,.35); }
-            h1 { margin:0 0 16px; font-size:20px; }
-            label { display:block; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:16px 0 6px; }
-            input { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #1f2937; background:#0b1220; color:#e2e8f0; }
-            button { width:100%; margin-top:20px; padding:12px 14px; border-radius:10px; border:none; background:#10b981; color:#052e2b; font-weight:700; cursor:pointer; }
-            .error { margin-top:12px; color:#fca5a5; font-size:13px; }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                color: #e2e8f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .card {
+                background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+                padding: 48px;
+                border-radius: 24px;
+                width: 100%;
+                max-width: 460px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                            0 0 0 1px rgba(255, 255, 255, 0.05);
+                position: relative;
+                overflow: hidden;
+            }
+            .card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            }
+            .logo {
+                text-align: center;
+                margin-bottom: 32px;
+            }
+            .logo h1 {
+                font-size: 28px;
+                font-weight: 700;
+                background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 8px;
+            }
+            .logo p {
+                font-size: 14px;
+                color: #94a3b8;
+                font-weight: 500;
+            }
+            .form-group {
+                margin-bottom: 24px;
+            }
+            label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+                color: #cbd5e1;
+            }
+            input {
+                width: 100%;
+                padding: 14px 16px;
+                border-radius: 12px;
+                border: 2px solid #334155;
+                background: #0f172a;
+                color: #e2e8f0;
+                font-size: 15px;
+                font-family: inherit;
+                transition: all 0.2s;
+            }
+            input:focus {
+                outline: none;
+                border-color: #10b981;
+                box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            }
+            button {
+                width: 100%;
+                margin-top: 32px;
+                padding: 16px;
+                border-radius: 12px;
+                border: none;
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: white;
+                font-size: 15px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-family: inherit;
+                letter-spacing: 0.02em;
+            }
+            button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 24px -8px rgba(16, 185, 129, 0.4);
+            }
+            button:active {
+                transform: translateY(0);
+            }
+            .error {
+                margin-top: 20px;
+                padding: 12px 16px;
+                background: rgba(239, 68, 68, 0.1);
+                border: 1px solid rgba(239, 68, 68, 0.3);
+                border-radius: 8px;
+                color: #fca5a5;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+            .footer {
+                margin-top: 24px;
+                text-align: center;
+                font-size: 12px;
+                color: #64748b;
+            }
         </style>
     </head>
     <body>
         <div class="card">
-            <h1>Administration A2S</h1>
+            <div class="logo">
+                <h1>A2S</h1>
+                <p>Administration</p>
+            </div>
             <form method="post" autocomplete="off">
                 <input type="hidden" name="csrf" value="<?php echo esc($_SESSION['csrf']); ?>">
-                <label for="username">Utilisateur</label>
-                <input id="username" name="username" type="text" required>
-                <label for="password">Mot de passe</label>
-                <input id="password" name="password" type="password" required>
+                <div class="form-group">
+                    <label for="username">Utilisateur</label>
+                    <input id="username" name="username" type="text" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input id="password" name="password" type="password" required>
+                </div>
                 <button type="submit">Se connecter</button>
             </form>
             <?php if ($error !== ''): ?>
                 <div class="error"><?php echo esc($error); ?></div>
             <?php endif; ?>
+            <div class="footer">
+                Alliance Synergie Santé © <?php echo date('Y'); ?>
+            </div>
         </div>
     </body>
     </html>
@@ -248,6 +369,7 @@ if (empty($_SESSION['auth'])) {
     exit;
 }
 
+// User is authenticated - load database and render admin interface
 if (!is_readable($dbConfigPath)) {
     http_response_code(503);
     echo 'Database configuration missing.';
@@ -279,23 +401,161 @@ try {
     exit;
 }
 
-$page = max(1, (int)($_GET['page'] ?? 1));
-$perPage = 50;
-$offset = ($page - 1) * $perPage;
+// Handle actions (mark as read, delete, export, etc.)
+$action = $_GET['action'] ?? '';
+$successMessage = '';
 
-$total = (int)$pdo->query('SELECT COUNT(*) FROM contact_messages')->fetchColumn();
-$stmt = $pdo->prepare(
-    'SELECT id, name, company, email, phone, interest, other_interest, message, ip_address, created_at
-     FROM contact_messages
-     ORDER BY created_at DESC
-     LIMIT :limit OFFSET :offset'
-);
+if ($action === 'mark_read' && isset($_GET['id']) && isset($_GET['token'])) {
+    if (hash_equals($_SESSION['csrf'], (string)$_GET['token'])) {
+        $id = (int)$_GET['id'];
+        $stmt = $pdo->prepare('UPDATE contact_messages SET is_read = 1, updated_at = NOW() WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $successMessage = 'Message marqué comme lu.';
+    }
+}
+
+if ($action === 'mark_unread' && isset($_GET['id']) && isset($_GET['token'])) {
+    if (hash_equals($_SESSION['csrf'], (string)$_GET['token'])) {
+        $id = (int)$_GET['id'];
+        $stmt = $pdo->prepare('UPDATE contact_messages SET is_read = 0, updated_at = NOW() WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $successMessage = 'Message marqué comme non lu.';
+    }
+}
+
+if ($action === 'delete' && isset($_GET['id']) && isset($_GET['token'])) {
+    if (hash_equals($_SESSION['csrf'], (string)$_GET['token'])) {
+        $id = (int)$_GET['id'];
+        $stmt = $pdo->prepare('DELETE FROM contact_messages WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $successMessage = 'Message supprimé.';
+    }
+}
+
+if ($action === 'export_csv') {
+    // Export to CSV
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="messages_a2s_' . date('Y-m-d_His') . '.csv"');
+
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['ID', 'Date', 'Nom', 'Société', 'Email', 'Téléphone', 'Intérêt', 'Autre', 'Message', 'IP', 'Lu', 'Statut']);
+
+    $stmt = $pdo->query('SELECT * FROM contact_messages ORDER BY created_at DESC');
+    while ($row = $stmt->fetch()) {
+        fputcsv($output, [
+            $row['id'],
+            $row['created_at'],
+            $row['name'],
+            $row['company'],
+            $row['email'],
+            $row['phone'],
+            $row['interest'],
+            $row['other_interest'] ?? '',
+            $row['message'],
+            $row['ip_address'],
+            ($row['is_read'] ?? 0) ? 'Oui' : 'Non',
+            $row['status'] ?? 'new'
+        ]);
+    }
+    fclose($output);
+    exit;
+}
+
+// Pagination and filtering
+$page = max(1, (int)($_GET['page'] ?? 1));
+$perPage = (int)($_GET['per_page'] ?? 25);
+$perPage = min(100, max(10, $perPage)); // Between 10 and 100
+
+$search = trim((string)($_GET['search'] ?? ''));
+$filterStatus = (string)($_GET['filter_status'] ?? '');
+$filterRead = (string)($_GET['filter_read'] ?? '');
+$sortBy = (string)($_GET['sort'] ?? 'created_at');
+$sortOrder = (string)($_GET['order'] ?? 'DESC');
+
+// Validate sort parameters
+$allowedSort = ['created_at', 'name', 'company', 'email'];
+if (!in_array($sortBy, $allowedSort, true)) {
+    $sortBy = 'created_at';
+}
+if (!in_array($sortOrder, ['ASC', 'DESC'], true)) {
+    $sortOrder = 'DESC';
+}
+
+// Build query
+$where = [];
+$params = [];
+
+if ($search !== '') {
+    $where[] = '(name LIKE :search OR company LIKE :search OR email LIKE :search OR message LIKE :search)';
+    $params['search'] = '%' . $search . '%';
+}
+
+if ($filterStatus !== '' && in_array($filterStatus, ['new', 'in_progress', 'resolved', 'archived'], true)) {
+    $where[] = 'status = :status';
+    $params['status'] = $filterStatus;
+}
+
+if ($filterRead === '1') {
+    $where[] = 'is_read = 1';
+} elseif ($filterRead === '0') {
+    $where[] = 'is_read = 0';
+}
+
+$whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+// Get total count
+$countQuery = "SELECT COUNT(*) FROM contact_messages $whereClause";
+$countStmt = $pdo->prepare($countQuery);
+$countStmt->execute($params);
+$total = (int)$countStmt->fetchColumn();
+
+// Get statistics
+$stats = $pdo->query('
+    SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) as unread,
+        SUM(CASE WHEN status = "new" THEN 1 ELSE 0 END) as new_messages,
+        SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) as today
+    FROM contact_messages
+')->fetch();
+
+// Get messages
+$offset = ($page - 1) * $perPage;
+$query = "
+    SELECT id, name, company, email, phone, interest, other_interest, message, ip_address, created_at,
+           is_read, notes, priority, status, updated_at
+    FROM contact_messages
+    $whereClause
+    ORDER BY $sortBy $sortOrder
+    LIMIT :limit OFFSET :offset
+";
+
+$stmt = $pdo->prepare($query);
+foreach ($params as $key => $value) {
+    $stmt->bindValue(':' . $key, $value);
+}
 $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 $rows = $stmt->fetchAll();
 
 $totalPages = max(1, (int)ceil($total / $perPage));
+
+// Helper function to build query string
+function buildQuery($params): string {
+    global $search, $filterStatus, $filterRead, $sortBy, $sortOrder, $perPage;
+    $defaults = [
+        'search' => $search,
+        'filter_status' => $filterStatus,
+        'filter_read' => $filterRead,
+        'sort' => $sortBy,
+        'order' => $sortOrder,
+        'per_page' => $perPage
+    ];
+    $merged = array_merge($defaults, $params);
+    $filtered = array_filter($merged, fn($v) => $v !== '');
+    return http_build_query($filtered);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -303,74 +563,448 @@ $totalPages = max(1, (int)ceil($total / $perPage));
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Messages - A2S Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background:#0b1220; color:#e2e8f0; margin:0; }
-        header { padding:24px 28px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1f2937; }
-        h1 { margin:0; font-size:20px; }
-        .meta { font-size:12px; color:#94a3b8; }
-        .wrap { padding:24px 28px; }
-        table { width:100%; border-collapse:collapse; font-size:13px; }
-        th, td { padding:12px; border-bottom:1px solid #1f2937; vertical-align:top; }
-        th { text-align:left; color:#cbd5f5; font-weight:600; }
-        .chip { display:inline-block; padding:4px 8px; border-radius:999px; background:#1f2937; font-size:11px; }
-        .pagination { margin-top:16px; display:flex; gap:8px; align-items:center; }
-        .pagination a { color:#93c5fd; text-decoration:none; }
-        .message { white-space:pre-wrap; max-width:420px; }
-        a.logout { color:#fca5a5; text-decoration:none; font-size:12px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0b1220;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+            padding: 24px 32px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .header-left .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: #1f2937;
+            color: #e2e8f0;
+            border: 1px solid #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #374151;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 24px 32px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #1f2937;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* Filters */
+        .filters {
+            padding: 0 32px 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 40px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        select {
+            padding: 12px 16px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Table */
+        .table-container {
+            padding: 0 32px 32px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px;
+            background: #111827;
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #1f2937;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #1f2937;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-unread {
+            background: rgba(59, 130, 246, 0.1);
+            color: #93c5fd;
+        }
+
+        .badge-read {
+            background: rgba(107, 114, 128, 0.1);
+            color: #9ca3af;
+        }
+
+        .badge-new {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+        }
+
+        .message-preview {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #94a3b8;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-link {
+            color: #10b981;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Pagination */
+        .pagination {
+            padding: 0 32px 32px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .pagination a, .pagination span {
+            padding: 8px 14px;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .pagination a:hover {
+            background: #1f2937;
+        }
+
+        .pagination .current {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .success-message {
+            margin: 24px 32px;
+            padding: 12px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: #34d399;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px;
+            }
+            .stats, .filters, .table-container, .pagination {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 12px 8px;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
-        <div>
-            <h1>Messages du formulaire</h1>
-            <div class="meta"><?php echo esc((string)$total); ?> messages</div>
+        <div class="header-left">
+            <h1>Messages de Contact</h1>
+            <div class="subtitle">Gestion centralisée • <?php echo esc((string)$total); ?> messages</div>
         </div>
-        <div>
-            <span class="chip">Page <?php echo esc((string)$page); ?> / <?php echo esc((string)$totalPages); ?></span>
-            <a class="logout" href="/admin/?logout=1">Deconnexion</a>
+        <div class="header-right">
+            <a href="/admin/index.php?action=export_csv" class="btn btn-secondary">📥 Export CSV</a>
+            <a href="/admin/index.php?logout=1" class="btn btn-danger">🚪 Déconnexion</a>
         </div>
     </header>
-    <div class="wrap">
-        <table>
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Nom</th>
-                <th>Societe</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>Interet</th>
-                <th>Message</th>
-                <th>IP</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if (!$rows): ?>
-                <tr><td colspan="8">Aucun message.</td></tr>
-            <?php else: ?>
-                <?php foreach ($rows as $row): ?>
-                    <tr>
-                        <td><?php echo esc((string)$row['created_at']); ?></td>
-                        <td><?php echo esc((string)$row['name']); ?></td>
-                        <td><?php echo esc((string)$row['company']); ?></td>
-                        <td><a href="mailto:<?php echo esc((string)$row['email']); ?>"><?php echo esc((string)$row['email']); ?></a></td>
-                        <td><?php echo esc((string)$row['phone']); ?></td>
-                        <td><?php echo esc((string)$row['interest']); ?><?php echo $row['other_interest'] ? ' - ' . esc((string)$row['other_interest']) : ''; ?></td>
-                        <td class="message"><?php echo esc((string)$row['message']); ?></td>
-                        <td><?php echo esc((string)$row['ip_address']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <?php if ($page > 1): ?>
-                <a href="/admin/?page=<?php echo esc((string)($page - 1)); ?>">Page precedente</a>
-            <?php endif; ?>
-            <?php if ($page < $totalPages): ?>
-                <a href="/admin/?page=<?php echo esc((string)($page + 1)); ?>">Page suivante</a>
-            <?php endif; ?>
+
+    <?php if ($successMessage): ?>
+        <div class="success-message"><?php echo esc($successMessage); ?></div>
+    <?php endif; ?>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-label">Total Messages</div>
+            <div class="stat-value"><?php echo esc((string)($stats['total'] ?? 0)); ?></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Non Lus</div>
+            <div class="stat-value"><?php echo esc((string)($stats['unread'] ?? 0)); ?></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Nouveaux</div>
+            <div class="stat-value"><?php echo esc((string)($stats['new_messages'] ?? 0)); ?></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Aujourd'hui</div>
+            <div class="stat-value"><?php echo esc((string)($stats['today'] ?? 0)); ?></div>
         </div>
     </div>
+
+    <form class="filters" method="get">
+        <div class="search-box">
+            <input type="search" name="search" placeholder="Rechercher..." value="<?php echo esc($search); ?>">
+        </div>
+        <select name="filter_read">
+            <option value="">Tous</option>
+            <option value="0" <?php echo $filterRead === '0' ? 'selected' : ''; ?>>Non lus</option>
+            <option value="1" <?php echo $filterRead === '1' ? 'selected' : ''; ?>>Lus</option>
+        </select>
+        <select name="filter_status">
+            <option value="">Tous statuts</option>
+            <option value="new" <?php echo $filterStatus === 'new' ? 'selected' : ''; ?>>Nouveaux</option>
+            <option value="in_progress" <?php echo $filterStatus === 'in_progress' ? 'selected' : ''; ?>>En cours</option>
+            <option value="resolved" <?php echo $filterStatus === 'resolved' ? 'selected' : ''; ?>>Résolus</option>
+        </select>
+        <select name="per_page">
+            <option value="10" <?php echo $perPage === 10 ? 'selected' : ''; ?>>10 par page</option>
+            <option value="25" <?php echo $perPage === 25 ? 'selected' : ''; ?>>25 par page</option>
+            <option value="50" <?php echo $perPage === 50 ? 'selected' : ''; ?>>50 par page</option>
+            <option value="100" <?php echo $perPage === 100 ? 'selected' : ''; ?>>100 par page</option>
+        </select>
+        <button type="submit" class="btn btn-primary">🔍 Filtrer</button>
+    </form>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Statut</th>
+                    <th><a href="?<?php echo buildQuery(['sort' => 'created_at', 'order' => $sortBy === 'created_at' && $sortOrder === 'DESC' ? 'ASC' : 'DESC']); ?>" style="color: inherit; text-decoration: none;">Date <?php echo $sortBy === 'created_at' ? ($sortOrder === 'DESC' ? '↓' : '↑') : ''; ?></a></th>
+                    <th><a href="?<?php echo buildQuery(['sort' => 'name', 'order' => $sortBy === 'name' && $sortOrder === 'ASC' ? 'DESC' : 'ASC']); ?>" style="color: inherit; text-decoration: none;">Nom <?php echo $sortBy === 'name' ? ($sortOrder === 'DESC' ? '↓' : '↑') : ''; ?></a></th>
+                    <th><a href="?<?php echo buildQuery(['sort' => 'company', 'order' => $sortBy === 'company' && $sortOrder === 'ASC' ? 'DESC' : 'ASC']); ?>" style="color: inherit; text-decoration: none;">Société <?php echo $sortBy === 'company' ? ($sortOrder === 'DESC' ? '↓' : '↑') : ''; ?></a></th>
+                    <th>Contact</th>
+                    <th>Intérêt</th>
+                    <th>Message</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!$rows): ?>
+                    <tr><td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">Aucun message trouvé.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($rows as $row): ?>
+                        <tr>
+                            <td>
+                                <?php if (($row['is_read'] ?? 0) == 0): ?>
+                                    <span class="badge badge-unread">Non lu</span>
+                                <?php else: ?>
+                                    <span class="badge badge-read">Lu</span>
+                                <?php endif; ?>
+                                <?php if (($row['status'] ?? 'new') === 'new'): ?>
+                                    <br><span class="badge badge-new" style="margin-top: 4px;">Nouveau</span>
+                                <?php endif; ?>
+                            </td>
+                            <td style="white-space: nowrap;"><?php echo esc(date('d/m/Y H:i', strtotime((string)$row['created_at']))); ?></td>
+                            <td><strong><?php echo esc((string)$row['name']); ?></strong></td>
+                            <td><?php echo esc((string)$row['company']); ?></td>
+                            <td>
+                                <a href="mailto:<?php echo esc((string)$row['email']); ?>" style="color: #10b981; text-decoration: none;"><?php echo esc((string)$row['email']); ?></a><br>
+                                <span style="color: #64748b; font-size: 13px;"><?php echo esc((string)$row['phone']); ?></span>
+                            </td>
+                            <td style="font-size: 13px;"><?php echo esc((string)$row['interest']); ?><?php echo $row['other_interest'] ? '<br><em style="color: #64748b;">' . esc((string)$row['other_interest']) . '</em>' : ''; ?></td>
+                            <td><div class="message-preview" title="<?php echo esc((string)$row['message']); ?>"><?php echo esc((string)$row['message']); ?></div></td>
+                            <td class="actions">
+                                <?php if (($row['is_read'] ?? 0) == 0): ?>
+                                    <a href="?action=mark_read&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link">✓ Lire</a>
+                                <?php else: ?>
+                                    <a href="?action=mark_unread&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link">↩ Non lu</a>
+                                <?php endif; ?>
+                                <a href="?action=delete&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link" style="color: #fca5a5;" onclick="return confirm('Supprimer ce message ?');">🗑 Supprimer</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <?php if ($totalPages > 1): ?>
+        <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?<?php echo buildQuery(['page' => 1]); ?>">‹‹ Première</a>
+                <a href="?<?php echo buildQuery(['page' => $page - 1]); ?>">‹ Précédente</a>
+            <?php endif; ?>
+
+            <?php
+            $start = max(1, $page - 2);
+            $end = min($totalPages, $page + 2);
+            for ($i = $start; $i <= $end; $i++):
+            ?>
+                <?php if ($i === $page): ?>
+                    <span class="current"><?php echo $i; ?></span>
+                <?php else: ?>
+                    <a href="?<?php echo buildQuery(['page' => $i]); ?>"><?php echo $i; ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="?<?php echo buildQuery(['page' => $page + 1]); ?>">Suivante ›</a>
+                <a href="?<?php echo buildQuery(['page' => $totalPages]); ?>">Dernière ››</a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
 </body>
 </html>

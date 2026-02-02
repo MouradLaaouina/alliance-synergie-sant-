@@ -88,6 +88,9 @@
     <!-- Critical Resource Preloads -->
     <link rel="preload" as="style"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        media="print" onload="this.media='all'; this.onload=null;">
     <link rel="preload" as="image" href="/images/A2S-Logo-white.webp" type="image/webp" fetchpriority="high">
     <noscript>
         <link rel="stylesheet"
@@ -139,6 +142,66 @@
         "target": "https://a2s.ma/marques?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://a2s.ma/"
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Alliance Synergie Santé",
+      "alternateName": "A2S",
+      "url": "https://a2s.ma/",
+      "logo": "https://a2s.ma/images/A2S_logo.webp",
+      "description": "Leader du conseil, de la promotion et de la distribution dermo-cosmétique au Maroc",
+      "slogan": "Votre partenaire stratégique pour une croissance durable",
+      "foundingDate": "2008",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": "50"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Maroc"
+      },
+      "serviceType": ["Distribution dermo-cosmétique", "Conseil stratégique", "Promotion pharmaceutique"],
+      "knowsAbout": ["Dermatologie", "Cosmétique", "Santé", "Distribution pharmaceutique", "Marché marocain"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "145 Bd Hassan II",
+        "addressLocality": "Casablanca",
+        "postalCode": "20000",
+        "addressCountry": "MA"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+212-5-22-37-35-50",
+        "contactType": "customer service",
+        "areaServed": "MA",
+        "availableLanguage": ["French", "Arabic"],
+        "email": "contact@a2s.ma"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/a2smaroc/",
+        "https://www.facebook.com/alliancesynergiesanteofficiel",
+        "https://www.instagram.com/a2s.maroc.officiel",
+        "https://www.youtube.com/c/AllianceSynergieSanté",
+        "https://x.com/A2sSante",
+        "https://www.tiktok.com/@a2s.officiel"
+      ]
     }
     </script>
 </head>

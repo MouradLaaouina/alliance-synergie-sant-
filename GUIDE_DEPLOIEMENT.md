@@ -96,11 +96,6 @@ Verifier :
 - `$recipientEmail` (email qui recoit les messages)
 - `$fromEmail` (email d'envoi, sur le meme domaine si possible)
 
-## E) (Optionnel) API sur un autre domaine
-Si **l'API PHP est sur le meme domaine**, ne rien faire ici.
-Si l'API PHP est sur un autre domaine :
-- Ajouter CORS dans `public/api/contact.php` via `$allowedOrigins`.
-- Mettre `VITE_API_URL=https://votre-api-domaine.tld` dans `.env.production`.
 
 ## F) Builder le site
 ```bash
