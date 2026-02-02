@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation - Alliance Synergie Santé</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background-color: #f3f4f6;
+        }
+
+        .email-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .content {
+            padding: 40px 30px;
+            background-color: #ffffff;
+        }
+
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 15px;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+
+        .recap-box {
+            background: linear-gradient(to right, #ecfdf5, #f0fdf4);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .recap-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 15px;
+        }
+
+        .recap-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recap-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #d1fae5;
+        }
+
+        .recap-list li:last-child {
+            border-bottom: none;
+        }
+
+        .recap-label {
+            font-weight: 600;
+            color: #047857;
+            display: inline-block;
+            width: 120px;
+        }
+
+        .urgent-contact {
+            background-color: #fef3c7;
+            border: 1px solid #fbbf24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .urgent-contact p {
+            margin: 5px 0;
+            color: #78350f;
+        }
+
+        .urgent-phone {
+            font-size: 20px;
+            font-weight: 700;
+            color: #92400e;
+        }
+
+        .signature {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .signature-text {
+            font-size: 15px;
+            color: #374151;
+            margin: 5px 0;
+        }
+
+        .footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .footer-company {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 5px;
+        }
+
+        .footer-subtitle {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin-bottom: 25px;
+        }
+
+        .footer-info {
+            font-size: 14px;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .footer-info a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            margin: 25px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #10b981;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 15px;
+            border: 1px solid #10b981;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .footer-baseline {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #1e293b;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            .content,
+            .header,
+            .footer {
+                padding: 20px 15px !important;
+            }
+
+            .logo {
+                font-size: 24px !important;
+            }
+
+            .recap-label {
+                display: block;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .social-links a {
+                display: block;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-wrapper">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://a2s.ma/images/A2S-Logo-white.webp" alt="Alliance Synergie Santé"
+                style="width: 140px; height: auto; margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto;">
+            <p class="tagline">Alliance Synergie Santé</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">Bonjour {{NAME}},</div>
+
+            <p class="message">
+                Nous avons bien reçu votre demande de contact et vous en remercions.
+            </p>
+
+            <p class="message">
+                Notre équipe prendra connaissance de votre message dans les plus brefs délais
+                et vous contactera prochainement pour donner suite à votre demande.
+            </p>
+
+            <!-- Recap Box -->
+            <div class="recap-box">
+                <div class="recap-title">📋 Récapitulatif de votre demande</div>
+                <ul class="recap-list">
+                    <li>
+                        <span class="recap-label">Société :</span>
+                        <span>{{COMPANY}}</span>
+                    </li>
+                    <li>
+                        <span class="recap-label">Sujet :</span>
+                        <span>{{INTEREST}}</span>
+                    </li>
+                    <li>
+                        <span class="recap-label">Téléphone :</span>
+                        <span>{{PHONE}}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Urgent Contact -->
+            <div class="urgent-contact">
+                <p>Pour toute question urgente, n'hésitez pas à nous contacter :</p>
+                <p class="urgent-phone">📞 +212 5 22 37 35 50</p>
+            </div>
+
+            <!-- Signature -->
+            <div class="signature">
+                <p class="signature-text">Cordialement,</p>
+                <p class="signature-text"><strong>L'équipe Alliance Synergie Santé</strong></p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-company">Alliance Synergie Santé</div>
+            <div class="footer-subtitle">Leader de la Dermo-Cosmétique au Maroc</div>
+
+            <div class="footer-info">
+                📍 145 Bd Hassan II, Casablanca 20000, Maroc<br>
+                📞 <a href="tel:+212522373550">+212 5 22 37 35 50</a><br>
+                ✉️ <a href="mailto:contact@a2s.ma">contact@a2s.ma</a><br>
+                🌐 <a href="https://a2s.ma" target="_blank">a2s.ma</a>
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/company/a2smaroc/" target="_blank">LinkedIn</a>
+                <a href="https://www.instagram.com/a2s.maroc.officiel" target="_blank">Instagram</a>
+                <a href="https://www.facebook.com/alliancesynergiesanteofficiel" target="_blank">Facebook</a>
+            </div>
+
+            <div class="footer-baseline">
+                Depuis 2009, votre partenaire stratégique pour une croissance durable.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

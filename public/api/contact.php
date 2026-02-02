@@ -352,4 +352,61 @@ if (!$sent) {
     respond(false, 'Unable to send email at the moment.', 500);
 }
 
+// Send confirmation email to client (HTML version)
+$confirmationSubject = 'Confirmation de réception - Alliance Synergie Santé';
+
+// Load HTML template
+$templatePath = __DIR__ . '/email_template_confirmation.html';
+if (!file_exists($templatePath)) {
+    // Fallback to text version if template not found
+    $confirmationBody = "Bonjour $name,\n\n"
+        . "Nous avons bien reçu votre demande de contact et vous en remercions.\n\n"
+        . "Notre équipe prendra connaissance de votre message dans les plus brefs délais et vous contactera prochainement pour donner suite à votre demande.\n\n"
+        . "Récapitulatif de votre demande :\n"
+        . "• Société : $company\n"
+        . "• Sujet : $interest" . ($otherInterest !== '' ? " - $otherInterest" : '') . "\n"
+        . "• Téléphone : $phone\n\n"
+        . "Si vous avez des questions urgentes, n'hésitez pas à nous contacter directement au +212 5 22 37 35 50.\n\n"
+        . "Cordialement,\n\n"
+        . "──────────────────────────────────────\n"
+        . "Alliance Synergie Santé (A2S)\n"
+        . "Leader de la Dermo-Cosmétique au Maroc\n\n"
+        . "📍 145 Bd Hassan II, Casablanca 20000, Maroc\n"
+        . "📞 +212 5 22 37 35 50\n"
+        . "✉️  contact@a2s.ma\n"
+        . "🌐 https://a2s.ma\n\n"
+        . "LinkedIn : https://www.linkedin.com/company/a2smaroc/\n"
+        . "Instagram : https://www.instagram.com/a2s.maroc.officiel\n"
+        . "Facebook : https://www.facebook.com/alliancesynergiesanteofficiel\n"
+        . "──────────────────────────────────────\n\n"
+        . "Depuis 2009, votre partenaire stratégique pour une croissance durable.\n";
+    $isHtml = false;
+} else {
+    $confirmationBody = file_get_contents($templatePath);
+
+    // Replace placeholders with actual data
+    $confirmationBody = str_replace('{{NAME}}', htmlspecialchars($name, ENT_QUOTES, 'UTF-8'), $confirmationBody);
+    $confirmationBody = str_replace('{{COMPANY}}', htmlspecialchars($company, ENT_QUOTES, 'UTF-8'), $confirmationBody);
+    $interestValue = $interest . ($otherInterest !== '' ? ' - ' . $otherInterest : '');
+    $confirmationBody = str_replace('{{INTEREST}}', htmlspecialchars($interestValue, ENT_QUOTES, 'UTF-8'), $confirmationBody);
+    $confirmationBody = str_replace('{{PHONE}}', htmlspecialchars($phone, ENT_QUOTES, 'UTF-8'), $confirmationBody);
+    $isHtml = true;
+}
+
+// Set headers based on content type
+$confirmationHeaders = [
+    'From: Alliance Synergie Santé <' . $fromEmail . '>',
+    'Reply-To: contact@a2s.ma',
+    'MIME-Version: 1.0',
+];
+
+if ($isHtml) {
+    $confirmationHeaders[] = 'Content-Type: text/html; charset=UTF-8';
+} else {
+    $confirmationHeaders[] = 'Content-Type: text/plain; charset=UTF-8';
+}
+
+// Send confirmation email (don't block on failure)
+@mail($email, $confirmationSubject, $confirmationBody, implode("\r\n", $confirmationHeaders));
+
 respond(true, 'Message sent.');
