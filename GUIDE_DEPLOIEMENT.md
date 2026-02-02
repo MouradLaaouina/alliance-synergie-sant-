@@ -25,6 +25,51 @@ Securite :
 - Permissions conseillees : `config_db.php` en 600/640, `contact.php` en 644.
 - Test : l'URL `https://votredomaine.tld/config_db.php` ne doit **pas** exister (404).
 
+## B3) Permissions conseillees (Hostinger)
+Si Hostinger ne permet pas un niveau, prendre le plus proche.
+
+Fichiers sensibles (hors `public_html`) :
+- `config_db.php` : 600 (ou 640)
+- `config_admin.php` : 600 (ou 640)
+
+Fichiers PHP exposes (dans `public_html`) :
+- `public/api/contact.php` : 644
+- `public/admin/index.php` : 644
+- `public/api/.htaccess` : 644
+- `public/.htaccess` : 644
+
+Fichiers publics :
+- `public/robots.txt` : 644
+- `public/sitemap.xml` : 644
+- `public/sitemap-index.xml` : 644
+- `public/assets/*` : 644
+- `public/images/*` : 644
+- `public/index.html` : 644
+
+Dossiers :
+- `public_html/` : 755
+- `public_html/api/` : 755
+- `public_html/admin/` : 755
+- `public_html/images/` : 755
+
+## B2) Configurer l'acces admin (hors public_html)
+Fichier : `config_admin.php`
+
+Etapes :
+1. Generer un hash de mot de passe sur votre machine :
+   ```bash
+   php -r "echo password_hash('VotreMotDePasse', PASSWORD_DEFAULT);"
+   ```
+2. Ouvrir `config_admin.php` et renseigner :
+   - `enabled` = true
+   - `username` = votre identifiant
+   - `password_hash` = le hash genere
+   - `session_timeout_minutes` = 30 (ou selon besoin)
+   - `rate_limit_*` pour limiter les tentatives de login
+   - `ip_allowlist` si vous voulez autoriser uniquement certaines IP
+   - `trust_proxy` a true uniquement si vous savez que Hostinger envoie un X-Forwarded-For fiable
+3. Uploader `config_admin.php` **au meme niveau que** `config_db.php` (hors `public_html`).
+
 ## C) Activer le captcha (Cloudflare Turnstile)
 1. Creer un compte Cloudflare Turnstile.
 2. Ajouter votre domaine et recuperer :
@@ -75,13 +120,18 @@ Le dossier `dist/` contiendra **le site + l'API**.
    - `public_html/api/.htaccess`
 5. Remonter **un niveau au-dessus** de `public_html` (ex: `domains/votredomaine.tld/`).
 6. Uploader `config_db.php` dans ce dossier (au meme niveau que `public_html`).
+7. Uploader `config_admin.php` dans ce dossier (au meme niveau que `public_html`).
 
 ## H) Tester
 1. Ouvrir `https://votredomaine.tld/contact`
 2. Remplir et envoyer le formulaire.
 3. Verifier :
-   - email recu,
-   - ligne inseree dans `contact_messages` (phpMyAdmin).
+  - email recu,
+  - ligne inseree dans `contact_messages` (phpMyAdmin).
+
+Test admin :
+- Ouvrir `https://votredomaine.tld/admin/`
+- Se connecter avec vos identifiants
 
 Test API (optionnel) :
 ```bash

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
-Sitemap: https://a2s.ma/sitemap.xml
+Sitemap: https://a2s.ma/sitemap-index.xml
