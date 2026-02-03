@@ -283,7 +283,7 @@ const Contact = () => {
                                                     maxLength={100}
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
-                                                    placeholder="Ex: Mourad Laaouina"
+                                                    placeholder="Saisir votre nom"
                                                 />
                                             </div>
                                             <div className="space-y-3">
@@ -316,7 +316,7 @@ const Contact = () => {
                                                     maxLength={254}
                                                     required
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-700 placeholder:text-slate-400"
-                                                    placeholder="mourad.laaouina@entreprise.com"
+                                                    placeholder="Saisir votre email"
                                                 />
                                             </div>
                                             <div className="space-y-3">

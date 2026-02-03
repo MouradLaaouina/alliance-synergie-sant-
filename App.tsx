@@ -238,20 +238,8 @@ const Footer = () => (
       </div>
 
       <div className="mt-10 flex flex-col md:flex-row justify-between items-center text-[10px] text-center md:text-left space-y-4 md:space-y-0 opacity-80">
-        <div className="space-y-1 md:space-y-0 md:flex md:items-center md:space-x-4">
+        <div>
           <p>© {new Date().getFullYear()} Alliance Synergie Santé (A2S).</p>
-          <span className="hidden md:block text-slate-700">|</span>
-          <p>
-            Développé par{' '}
-            <a
-              href="https://www.linkedin.com/in/mouradlaa/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white font-medium hover:text-emerald-300 transition-colors"
-            >
-              Mourad LAAOUINA
-            </a>
-          </p>
         </div>
         <div className="flex flex-wrap justify-center gap-6">
           <a href="#" className="hover:text-white transition-colors">Mentions Légales</a>
