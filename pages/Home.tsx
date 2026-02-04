@@ -302,23 +302,26 @@ const Home = () => {
 
         <div className="relative flex overflow-x-hidden">
           <div className="animate-marquee py-8 flex items-center border-y border-slate-50 will-change-transform">
-            {doublePartners.map((lab, index) => (
-              <div
-                key={`${lab.name}-${index}`}
-                className="mx-12 md:mx-20 flex flex-col items-center justify-center min-w-[140px] md:min-w-[240px] group transition-all duration-700"
-              >
-                <div className="h-12 md:h-20 w-auto grayscale contrast-125 brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 opacity-40 group-hover:opacity-100 transition-all duration-1000 transform group-hover:scale-110">
-                  <img
-                    src={lab.logo}
-                    alt={`${lab.name} - logo du laboratoire partenaire`}
-                    className="h-full w-full object-contain"
-                    loading="lazy"
-                    decoding="async"
-                  />
+            {doublePartners.map((lab, index) => {
+              const isBabe = lab.logo.includes('BABE');
+              return (
+                <div
+                  key={`${lab.name}-${index}`}
+                  className="mx-12 md:mx-20 flex flex-col items-center justify-center min-w-[140px] md:min-w-[240px] group transition-all duration-700"
+                >
+                  <div className={`${isBabe ? 'h-16 md:h-28' : 'h-12 md:h-20'} w-auto grayscale contrast-125 brightness-90 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 opacity-40 group-hover:opacity-100 transition-all duration-1000 transform group-hover:scale-110`}>
+                    <img
+                      src={lab.logo}
+                      alt={`${lab.name} - logo du laboratoire partenaire`}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <span className="mt-4 text-[10px] font-bold text-emerald-600/60 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">{lab.origin}</span>
                 </div>
-                <span className="mt-4 text-[10px] font-bold text-emerald-600/60 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all duration-700">{lab.origin}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Edge Feathering Masks */}

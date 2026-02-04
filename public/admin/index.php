@@ -469,6 +469,8 @@ $perPage = min(100, max(10, $perPage)); // Between 10 and 100
 $search = trim((string)($_GET['search'] ?? ''));
 $filterStatus = (string)($_GET['filter_status'] ?? '');
 $filterRead = (string)($_GET['filter_read'] ?? '');
+$filterDate = (string)($_GET['filter_date'] ?? '');
+$filterInterest = (string)($_GET['filter_interest'] ?? '');
 $sortBy = (string)($_GET['sort'] ?? 'created_at');
 $sortOrder = (string)($_GET['order'] ?? 'DESC');
 
@@ -501,7 +503,33 @@ if ($filterRead === '1') {
     $where[] = 'is_read = 0';
 }
 
+if ($filterDate !== '') {
+    switch ($filterDate) {
+        case 'today':
+            $where[] = 'DATE(created_at) = CURDATE()';
+            break;
+        case 'yesterday':
+            $where[] = 'DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)';
+            break;
+        case 'week':
+            $where[] = 'created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
+            break;
+        case 'month':
+            $where[] = 'created_at >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)';
+            break;
+    }
+}
+
+if ($filterInterest !== '') {
+    $where[] = 'interest = :interest';
+    $params['interest'] = $filterInterest;
+}
+
 $whereClause = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+// Get distinct interests for filter dropdown
+$interestStmt = $pdo->query('SELECT DISTINCT interest FROM contact_messages WHERE interest IS NOT NULL AND interest != "" ORDER BY interest');
+$interests = $interestStmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Get total count
 $countQuery = "SELECT COUNT(*) FROM contact_messages $whereClause";
@@ -543,11 +571,13 @@ $totalPages = max(1, (int)ceil($total / $perPage));
 
 // Helper function to build query string
 function buildQuery($params): string {
-    global $search, $filterStatus, $filterRead, $sortBy, $sortOrder, $perPage;
+    global $search, $filterStatus, $filterRead, $filterDate, $filterInterest, $sortBy, $sortOrder, $perPage;
     $defaults = [
         'search' => $search,
         'filter_status' => $filterStatus,
         'filter_read' => $filterRead,
+        'filter_date' => $filterDate,
+        'filter_interest' => $filterInterest,
         'sort' => $sortBy,
         'order' => $sortOrder,
         'per_page' => $perPage
@@ -556,6 +586,23 @@ function buildQuery($params): string {
     $filtered = array_filter($merged, fn($v) => $v !== '');
     return http_build_query($filtered);
 }
+
+// Count active filters
+$activeFiltersCount = 0;
+$activeFiltersList = [];
+if ($search !== '') { $activeFiltersCount++; $activeFiltersList[] = ['label' => 'Recherche: ' . mb_substr($search, 0, 20) . (mb_strlen($search) > 20 ? '...' : ''), 'param' => 'search']; }
+if ($filterStatus !== '') {
+    $statusLabels = ['new' => 'Nouveau', 'in_progress' => 'En cours', 'resolved' => 'Résolu', 'archived' => 'Archivé'];
+    $activeFiltersCount++;
+    $activeFiltersList[] = ['label' => 'Statut: ' . ($statusLabels[$filterStatus] ?? $filterStatus), 'param' => 'filter_status'];
+}
+if ($filterRead !== '') { $activeFiltersCount++; $activeFiltersList[] = ['label' => 'Lecture: ' . ($filterRead === '1' ? 'Lus' : 'Non lus'), 'param' => 'filter_read']; }
+if ($filterDate !== '') {
+    $dateLabels = ['today' => "Aujourd'hui", 'yesterday' => 'Hier', 'week' => '7 derniers jours', 'month' => '30 derniers jours'];
+    $activeFiltersCount++;
+    $activeFiltersList[] = ['label' => 'Date: ' . ($dateLabels[$filterDate] ?? $filterDate), 'param' => 'filter_date'];
+}
+if ($filterInterest !== '') { $activeFiltersCount++; $activeFiltersList[] = ['label' => 'Intérêt: ' . $filterInterest, 'param' => 'filter_interest']; }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -724,6 +771,65 @@ function buildQuery($params): string {
             cursor: pointer;
         }
 
+        select:focus, .search-box input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-reset:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .active-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 0 32px 16px;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 999px;
+            font-size: 12px;
+            color: #34d399;
+        }
+
+        .filter-tag a {
+            color: #fca5a5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .filter-tag a:hover {
+            color: #ef4444;
+        }
+
         /* Table */
         .table-container {
             padding: 0 32px 32px;
@@ -791,6 +897,152 @@ function buildQuery($params): string {
             overflow: hidden;
             text-overflow: ellipsis;
             color: #94a3b8;
+        }
+
+        .btn-view {
+            background: rgba(59, 130, 246, 0.1);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-view:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #374151;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 140px);
+        }
+
+        .modal-field {
+            margin-bottom: 16px;
+        }
+
+        .modal-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .modal-value {
+            font-size: 14px;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .modal-value a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        .modal-value a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-message {
+            background: #0f172a;
+            padding: 16px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #cbd5e1;
+            border: 1px solid #1f2937;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #374151;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 500px) {
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .actions {
@@ -904,28 +1156,63 @@ function buildQuery($params): string {
     </div>
 
     <form class="filters" method="get">
-        <div class="search-box">
-            <input type="search" name="search" placeholder="Rechercher..." value="<?php echo esc($search); ?>">
+        <div class="filter-row">
+            <div class="search-box">
+                <input type="search" name="search" placeholder="Rechercher par nom, société, email, message..." value="<?php echo esc($search); ?>">
+            </div>
+            <select name="filter_read">
+                <option value="">📖 Tous (lecture)</option>
+                <option value="0" <?php echo $filterRead === '0' ? 'selected' : ''; ?>>📩 Non lus</option>
+                <option value="1" <?php echo $filterRead === '1' ? 'selected' : ''; ?>>✅ Lus</option>
+            </select>
+            <select name="filter_status">
+                <option value="">📋 Tous statuts</option>
+                <option value="new" <?php echo $filterStatus === 'new' ? 'selected' : ''; ?>>🆕 Nouveaux</option>
+                <option value="in_progress" <?php echo $filterStatus === 'in_progress' ? 'selected' : ''; ?>>⏳ En cours</option>
+                <option value="resolved" <?php echo $filterStatus === 'resolved' ? 'selected' : ''; ?>>✔️ Résolus</option>
+                <option value="archived" <?php echo $filterStatus === 'archived' ? 'selected' : ''; ?>>📦 Archivés</option>
+            </select>
         </div>
-        <select name="filter_read">
-            <option value="">Tous</option>
-            <option value="0" <?php echo $filterRead === '0' ? 'selected' : ''; ?>>Non lus</option>
-            <option value="1" <?php echo $filterRead === '1' ? 'selected' : ''; ?>>Lus</option>
-        </select>
-        <select name="filter_status">
-            <option value="">Tous statuts</option>
-            <option value="new" <?php echo $filterStatus === 'new' ? 'selected' : ''; ?>>Nouveaux</option>
-            <option value="in_progress" <?php echo $filterStatus === 'in_progress' ? 'selected' : ''; ?>>En cours</option>
-            <option value="resolved" <?php echo $filterStatus === 'resolved' ? 'selected' : ''; ?>>Résolus</option>
-        </select>
-        <select name="per_page">
-            <option value="10" <?php echo $perPage === 10 ? 'selected' : ''; ?>>10 par page</option>
-            <option value="25" <?php echo $perPage === 25 ? 'selected' : ''; ?>>25 par page</option>
-            <option value="50" <?php echo $perPage === 50 ? 'selected' : ''; ?>>50 par page</option>
-            <option value="100" <?php echo $perPage === 100 ? 'selected' : ''; ?>>100 par page</option>
-        </select>
-        <button type="submit" class="btn btn-primary">🔍 Filtrer</button>
+        <div class="filter-row">
+            <select name="filter_date">
+                <option value="">📅 Toutes dates</option>
+                <option value="today" <?php echo $filterDate === 'today' ? 'selected' : ''; ?>>Aujourd'hui</option>
+                <option value="yesterday" <?php echo $filterDate === 'yesterday' ? 'selected' : ''; ?>>Hier</option>
+                <option value="week" <?php echo $filterDate === 'week' ? 'selected' : ''; ?>>7 derniers jours</option>
+                <option value="month" <?php echo $filterDate === 'month' ? 'selected' : ''; ?>>30 derniers jours</option>
+            </select>
+            <select name="filter_interest">
+                <option value="">🎯 Tous intérêts</option>
+                <?php foreach ($interests as $interest): ?>
+                    <option value="<?php echo esc($interest); ?>" <?php echo $filterInterest === $interest ? 'selected' : ''; ?>><?php echo esc($interest); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select name="per_page">
+                <option value="10" <?php echo $perPage === 10 ? 'selected' : ''; ?>>10 par page</option>
+                <option value="25" <?php echo $perPage === 25 ? 'selected' : ''; ?>>25 par page</option>
+                <option value="50" <?php echo $perPage === 50 ? 'selected' : ''; ?>>50 par page</option>
+                <option value="100" <?php echo $perPage === 100 ? 'selected' : ''; ?>>100 par page</option>
+            </select>
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-primary">🔍 Filtrer</button>
+                <?php if ($activeFiltersCount > 0): ?>
+                    <a href="/admin/index.php" class="btn btn-reset">✕ Réinitialiser</a>
+                <?php endif; ?>
+            </div>
+        </div>
     </form>
+
+    <?php if ($activeFiltersCount > 0): ?>
+        <div class="active-filters">
+            <span style="font-size: 12px; color: #64748b; margin-right: 8px;">Filtres actifs (<?php echo $activeFiltersCount; ?>):</span>
+            <?php foreach ($activeFiltersList as $filter): ?>
+                <span class="filter-tag">
+                    <?php echo esc($filter['label']); ?>
+                    <a href="?<?php echo buildQuery([$filter['param'] => '']); ?>" title="Supprimer ce filtre">×</a>
+                </span>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <div class="table-container">
         <table>
@@ -967,12 +1254,13 @@ function buildQuery($params): string {
                             <td style="font-size: 13px;"><?php echo esc((string)$row['interest']); ?><?php echo $row['other_interest'] ? '<br><em style="color: #64748b;">' . esc((string)$row['other_interest']) . '</em>' : ''; ?></td>
                             <td><div class="message-preview" title="<?php echo esc((string)$row['message']); ?>"><?php echo esc((string)$row['message']); ?></div></td>
                             <td class="actions">
+                                <button type="button" class="btn-view" onclick="showMessage(<?php echo (int)$row['id']; ?>)">👁 Voir</button>
                                 <?php if (($row['is_read'] ?? 0) == 0): ?>
                                     <a href="?action=mark_read&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link">✓ Lire</a>
                                 <?php else: ?>
                                     <a href="?action=mark_unread&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link">↩ Non lu</a>
                                 <?php endif; ?>
-                                <a href="?action=delete&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link" style="color: #fca5a5;" onclick="return confirm('Supprimer ce message ?');">🗑 Supprimer</a>
+                                <a href="?action=delete&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>" class="action-link" style="color: #fca5a5;" onclick="return confirm('Supprimer ce message ?');">🗑</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -1006,5 +1294,113 @@ function buildQuery($params): string {
             <?php endif; ?>
         </div>
     <?php endif; ?>
+
+    <!-- Modal pour afficher le message complet -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>📧 Détails du message</h2>
+                <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <div class="modal-field">
+                        <span class="modal-label">Nom</span>
+                        <div class="modal-value" id="modal-name"></div>
+                    </div>
+                    <div class="modal-field">
+                        <span class="modal-label">Société</span>
+                        <div class="modal-value" id="modal-company"></div>
+                    </div>
+                    <div class="modal-field">
+                        <span class="modal-label">Email</span>
+                        <div class="modal-value" id="modal-email"></div>
+                    </div>
+                    <div class="modal-field">
+                        <span class="modal-label">Téléphone</span>
+                        <div class="modal-value" id="modal-phone"></div>
+                    </div>
+                    <div class="modal-field">
+                        <span class="modal-label">Intérêt</span>
+                        <div class="modal-value" id="modal-interest"></div>
+                    </div>
+                    <div class="modal-field">
+                        <span class="modal-label">Date</span>
+                        <div class="modal-value" id="modal-date"></div>
+                    </div>
+                </div>
+                <div class="modal-field" style="margin-top: 20px;">
+                    <span class="modal-label">Message complet</span>
+                    <div class="modal-message" id="modal-message"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="modal-mark-read" href="#" class="btn btn-primary">✓ Marquer comme lu</a>
+                <a id="modal-reply" href="#" class="btn btn-secondary">📧 Répondre</a>
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données des messages pour la modal
+        const messagesData = {
+            <?php foreach ($rows as $row): ?>
+            <?php echo (int)$row['id']; ?>: {
+                name: <?php echo json_encode($row['name']); ?>,
+                company: <?php echo json_encode($row['company']); ?>,
+                email: <?php echo json_encode($row['email']); ?>,
+                phone: <?php echo json_encode($row['phone']); ?>,
+                interest: <?php echo json_encode($row['interest'] . ($row['other_interest'] ? ' (' . $row['other_interest'] . ')' : '')); ?>,
+                message: <?php echo json_encode($row['message']); ?>,
+                date: <?php echo json_encode(date('d/m/Y à H:i', strtotime((string)$row['created_at']))); ?>,
+                isRead: <?php echo (int)($row['is_read'] ?? 0); ?>,
+                markReadUrl: "?action=mark_read&id=<?php echo (int)$row['id']; ?>&token=<?php echo esc($_SESSION['csrf']); ?>&<?php echo buildQuery(['page' => $page]); ?>"
+            },
+            <?php endforeach; ?>
+        };
+
+        function showMessage(id) {
+            const data = messagesData[id];
+            if (!data) return;
+
+            document.getElementById('modal-name').textContent = data.name;
+            document.getElementById('modal-company').textContent = data.company || '-';
+            document.getElementById('modal-email').innerHTML = '<a href="mailto:' + data.email + '">' + data.email + '</a>';
+            document.getElementById('modal-phone').textContent = data.phone || '-';
+            document.getElementById('modal-interest').textContent = data.interest || '-';
+            document.getElementById('modal-date').textContent = data.date;
+            document.getElementById('modal-message').textContent = data.message;
+
+            // Bouton répondre
+            document.getElementById('modal-reply').href = 'mailto:' + data.email + '?subject=Re: Votre demande A2S';
+
+            // Bouton marquer comme lu
+            const markReadBtn = document.getElementById('modal-mark-read');
+            if (data.isRead) {
+                markReadBtn.style.display = 'none';
+            } else {
+                markReadBtn.style.display = 'inline-flex';
+                markReadBtn.href = data.markReadUrl;
+            }
+
+            document.getElementById('messageModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('messageModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Fermer avec Escape ou clic en dehors
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.getElementById('messageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
 </body>
 </html>

@@ -44,17 +44,19 @@ const Partners = () => {
 
         <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24 md:mb-32">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-            {PARTNERS.map((lab) => (
-              <div key={lab.name} className="group bg-white rounded-[2rem] overflow-hidden border border-slate-200 hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
-                <div className="h-40 md:h-48 bg-slate-50 flex items-center justify-center p-8 md:p-12 border-b border-slate-100 group-hover:bg-emerald-50 transition-colors">
-                  <img
-                    src={lab.logo}
-                    alt={`${lab.name} - logo du laboratoire partenaire`}
-                    className="max-h-full max-w-full opacity-60 group-hover:opacity-100 transition-all grayscale group-hover:grayscale-0 transform group-hover:scale-110 duration-500"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
+            {PARTNERS.map((lab) => {
+              const isBabe = lab.logo.includes('BABE');
+              return (
+                <div key={lab.name} className="group bg-white rounded-[2rem] overflow-hidden border border-slate-200 hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                  <div className="h-40 md:h-48 bg-slate-50 flex items-center justify-center p-8 md:p-12 border-b border-slate-100 group-hover:bg-emerald-50 transition-colors">
+                    <img
+                      src={lab.logo}
+                      alt={`${lab.name} - logo du laboratoire partenaire`}
+                      className={`${isBabe ? 'max-h-[120%] max-w-[120%] scale-125' : 'max-h-full max-w-full'} opacity-60 group-hover:opacity-100 transition-all grayscale group-hover:grayscale-0 transform group-hover:scale-110 duration-500`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
                   <div className="flex items-center space-x-2 text-emerald-600 font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-4">
                     <Globe2 size={14} />
@@ -82,7 +84,8 @@ const Partners = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
